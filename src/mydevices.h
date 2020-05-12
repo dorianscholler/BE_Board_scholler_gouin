@@ -7,7 +7,6 @@
 #include <string.h>
 #include "core_simulation.h"
 
-
 // exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
 class AnalogSensorTemperature: public Device {
 private:
@@ -25,6 +24,17 @@ public:
   virtual void run();
 };
 
+class AnalogSensorLuminosity:public Device{
+private:
+    // temps enre 2 prises de valeur
+    int temps;
+public:
+    //constructeur
+   AnalogSensorLuminosity(int lum); 
+   // thread representant le capteur et permettant de fonctionner independamment de la board
+   virtual void run();
+};
+
 // exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
 class DigitalActuatorLED: public Device {
 private:
@@ -38,6 +48,19 @@ public:
   DigitalActuatorLED(int t);
   // thread representant l'actionneur et permettant de fonctionner independamment de la board
   virtual void run();
+  //fonction pour accéder au state
+  int getState(void);
+  //fonction pour modifier state
+  void setState(int s);
+  //fonction pour récupérer le temps
+  int getTemps(void);
+};
+
+
+class IntelligentDigitalActuatorLED : public DigitalActuatorLED{
+public:
+    IntelligentDigitalActuatorLED(int t);   
+    virtual void run();
 };
 
 // exemple d'actionneur sur le bus I2C permettant d'echanger des tableaux de caracteres : un ecran, ne pas oublier d'heriter de Device
@@ -54,3 +77,4 @@ public:
 };
 
 #endif
+

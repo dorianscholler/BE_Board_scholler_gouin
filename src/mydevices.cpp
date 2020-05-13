@@ -55,21 +55,23 @@ void DigitalActuatorLED::run(){
 IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int t):DigitalActuatorLED(t){}
 
 void IntelligentDigitalActuatorLED::run(){
+    int old_State=LOW;
     while(1){
         if(ptrmem!=NULL)
           DigitalActuatorLED::setState(*ptrmem);
         if (DigitalActuatorLED::getState()==LOW){
             cout << "((((eteint))))\n";
-            if (luminosite_environnement>200){
+            if (old_State==HIGH){
                 luminosite_environnement-=50;
             }
         }
         else{
             cout << "((((allume))))\n";
-            if(luminosite_environnement<250){
+            if(old_State==LOW){
                 luminosite_environnement+=50;
             }
         }
+        old_State=DigitalActuatorLED::getState();
         sleep(DigitalActuatorLED::getTemps());
     }
 }

@@ -14,6 +14,10 @@ void Board::setup(){
   
   //on règle la LED intelligente en output
   pinMode(3,OUTPUT);
+
+  //on règle le button en output
+  pinMode(4,INPUT);
+
 }
 
 // la boucle de controle arduino
@@ -54,6 +58,7 @@ void Board::loop(){
     digitalWrite(3,LOW);
   }
   bascule=1-bascule;
+  
   
 }
 

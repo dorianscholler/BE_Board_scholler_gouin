@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <string.h>
 #include "core_simulation.h"
-
+#include <fstream>
 // exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
 class AnalogSensorTemperature: public Device {
 private:
@@ -61,6 +61,19 @@ class IntelligentDigitalActuatorLED : public DigitalActuatorLED{
 public:
     IntelligentDigitalActuatorLED(int t);   
     virtual void run();
+};
+
+
+class ExternalDigitalSensorButton : public Device {
+private :
+  bool m_on=false;
+
+public:
+  ExternalDigitalSensorButton();
+  ~ExternalDigitalSensorButton();
+  bool getandsetbutton();
+  virtual void run();
+
 };
 
 // exemple d'actionneur sur le bus I2C permettant d'echanger des tableaux de caracteres : un ecran, ne pas oublier d'heriter de Device

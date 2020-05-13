@@ -75,6 +75,34 @@ void IntelligentDigitalActuatorLED::run(){
         sleep(DigitalActuatorLED::getTemps());
     }
 }
+//constructeur
+ExternalDigitalSensorButton::ExternalDigitalSensorButton() : Device(){
+}
+//destructeur
+ExternalDigitalSensorButton::~ExternalDigitalSensorButton(){}
+
+bool ExternalDigitalSensorButton::getandsetbutton(){
+  if (ifstream("on.txt")){
+    m_on=true;  
+  }
+  else{
+    m_on=false;
+  }
+  return(m_on);
+}
+
+void ExternalDigitalSensorButton::run(){
+  while(1){
+    if(ptrmem!=NULL){
+      *ptrmem=getandsetbutton();
+    }
+    sleep(3); 
+  }        
+}
+
+  
+
+
 
 // classe I2CActuatorScreen
 I2CActuatorScreen::I2CActuatorScreen ():Device(){}

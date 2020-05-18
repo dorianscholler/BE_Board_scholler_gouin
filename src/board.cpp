@@ -7,7 +7,7 @@ int main(){
   Board esp8266;
   // achat des senseurs et actionneurs
   AnalogSensorTemperature temperature(DELAY,TEMP);
-  DigitalActuatorLED led1(DELAY);
+  IntelligentDigitalActuatorLED led1(DELAY);
   I2CActuatorScreen screen;
  
   //création d'un capteur de luminosité

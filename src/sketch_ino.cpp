@@ -25,6 +25,7 @@ void Board::loop(){
   char buf[100];
   int val;
   int val_lum;///valeur enregistrée par le capteur de luminosité
+  int etat_bouton;
   static int cpt=0;
   static int bascule=0;
   int i=0;
@@ -33,12 +34,19 @@ void Board::loop(){
     val=analogRead(1);
     sprintf(buf,"temperature %d",val);
     Serial.println(buf);
-    //lecture sur la pin 2 : capteur de luminosité
+
+    //lecture sur la pin 0 : capteur de luminosité
     val_lum=analogRead(2);
-    sprintf(buf,"luminosite %d",val_lum);
+    sprintf(buf,"luminosite led 1 : %d",val_lum);
     Serial.println(buf);
+
+    //lecture sur la pin 4 : bouton on//off
+    etat_bouton=analogRead(4);
+    sprintf(buf,"Le bouton vaut %d",etat_bouton);
+    Serial.println(buf);
+
     if(cpt%5==0){
-        // tous les 5 fois on affiche sur l ecran la temperature
+      // tous les 5 fois on affiche sur l'écran la temperature
       sprintf(buf,"%d",val);
       bus.write(1,buf,100);
       //toutes les 5 fois affichage également de la luminosité 
@@ -48,17 +56,25 @@ void Board::loop(){
     cpt++;
     sleep(1);
   }
-// on eteint et on allume la LED
+
+// on eteint et on allume la LED 1
+  if (etat_bouton){
+    digitalWrite(0,HIGH);
+  }
+  else{
+    digitalWrite(0,LOW);
+  }
+// on eteint et on allume la LED 2
   if(bascule){
-    //digitalWrite(0,HIGH);
+    
     digitalWrite(3,HIGH);
   }
   else{
-   // digitalWrite(0,LOW);
+   
     digitalWrite(3,LOW);
   }
   bascule=1-bascule;
-  
+
   
 }
 

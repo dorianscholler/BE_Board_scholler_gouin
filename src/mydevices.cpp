@@ -60,13 +60,13 @@ void IntelligentDigitalActuatorLED::run(){
         if(ptrmem!=NULL)
           DigitalActuatorLED::setState(*ptrmem);
         if (DigitalActuatorLED::getState()==LOW){
-            cout << "((((eteint))))\n";
+            cout << "((((SMART LED LOW))))\n";
             if (old_State==HIGH){
                 luminosite_environnement-=50;
             }
         }
         else{
-            cout << "((((allume))))\n";
+            cout << "((((SMART LED HIGH))))\n";
             if(old_State==LOW){
                 luminosite_environnement+=50;
             }

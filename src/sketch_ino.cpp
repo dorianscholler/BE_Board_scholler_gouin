@@ -17,7 +17,9 @@ void Board::setup(){
 
   //on règle le button en output
   pinMode(4,INPUT);
-
+  
+  ///test pour NoisyButton
+  pinMode(5,INPUT);
 }
 
 // la boucle de controle arduino
@@ -25,26 +27,37 @@ void Board::loop(){
   char buf[100];
   int val;
   int val_lum;///valeur enregistrée par le capteur de luminosité
+  int son=0;
   int etat_bouton;
   static int cpt=0;
   static int bascule=0;
   int i=0;
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature
-    val=analogRead(1);
-    sprintf(buf,"temperature %d",val);
-    Serial.println(buf);
+      
+    //val=analogRead(1);
+    //sprintf(buf,"temperature %d",val);
+   // Serial.println(buf);
 
     //lecture sur la pin 0 : capteur de luminosité
     val_lum=analogRead(2);
-    sprintf(buf,"luminosite led 1 : %d",val_lum);
+    sprintf(buf,"luminosite ambiante : %d",val_lum);
     Serial.println(buf);
 
+    
+    //lecture sur le pin 5 pour récupérer la valeur de fréquence du bouton
+    son=analogRead(5);
+    sprintf(buf,"son du bouton %d",son);
+    Serial.println(buf);    
+    
     //lecture sur la pin 4 : bouton on//off
     etat_bouton=analogRead(4);
+    
     sprintf(buf,"Le bouton vaut %d",etat_bouton);
     Serial.println(buf);
-
+    
+    
+    
     if(cpt%5==0){
       // tous les 5 fois on affiche sur l'écran la temperature
       sprintf(buf,"%d",val);
@@ -52,6 +65,9 @@ void Board::loop(){
       //toutes les 5 fois affichage également de la luminosité 
       sprintf(buf,"%d",val_lum);
       bus.write(2,buf,100);
+      ///TEST NOISYBUTTON
+      //sprintf(buf,"%d",son);
+      //bus.write(3,buf,100);
     }
     cpt++;
     sleep(1);

@@ -7,74 +7,143 @@
 #include <string.h>
 #include "core_simulation.h"
 #include <fstream>
+
+
+
+//////////////////////////////////////////SENSORS/////////////////////////////
+////defininition d'une classe pour les capteurs
+class Sensor:public Device{
+protected:
+    //definition du retard des capteurs
+    int delay;
+    //definition de l'erreur des capteurs
+    int alea;
+    //on va tout nommer pour plus de clarté
+    string name;
+public:
+    Sensor(int delay, string name);  
+};
+
+
+
+
 // exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
-class AnalogSensorTemperature: public Device {
+class AnalogSensorTemperature: public Sensor {
 private:
-  // fait osciller la valeur du cpateur de 1
-  int alea;
   // valeur de temperature mesuree
   int val;
-  // temps entre 2 prises de valeurs
-  int temps;
-  
 public:
   //constructeur ne pas oublier d'initialiser la classe mere
-  AnalogSensorTemperature(int d,int  t);
+  AnalogSensorTemperature(int  value, int de, string n);
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
 };
 
-class AnalogSensorLuminosity:public Device{
+
+////classe pour le capteur de luminosité
+class AnalogSensorLuminosity:public Sensor{
 private:
-    // temps enre 2 prises de valeur
-    int temps;
+    string file;
 public:
     //constructeur
-   AnalogSensorLuminosity(int lum); 
+   AnalogSensorLuminosity(int d, string n, string f); 
+   //déterminer si le capteur est recouvert
+   bool covered();
    // thread representant le capteur et permettant de fonctionner independamment de la board
    virtual void run();
 };
 
-// exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
-class DigitalActuatorLED: public Device {
-private:
-  // etat de la LED
-  int state;
-  // temps entre 2 affichage de l etat de la led
-  int temps;
-  
+///Classe pour les boutton simulé par des fichiers
+class ExternalDigitalSensorButton : public Sensor {
+protected :
+  bool state=false;
+  string file;///nous permet de placer les fichiers des bouttons poussoir là ou ça nous intéresse
 public:
-    // initialisation du temps de rafraichiisement
-  DigitalActuatorLED(int t);
-  // thread representant l'actionneur et permettant de fonctionner independamment de la board
+  ExternalDigitalSensorButton(int d, string n, string f);
+  ~ExternalDigitalSensorButton();
+  bool getandsetbutton();
   virtual void run();
-  //fonction pour accéder au state
-  int getState(void);
-  //fonction pour modifier state
-  void setState(int s);
-  //fonction pour récupérer le temps
-  int getTemps(void);
 };
 
 
-class IntelligentDigitalActuatorLED : public DigitalActuatorLED{
+
+///Classe pour les boutton qui emettent une sonorité 
+class NoisyButton : public ExternalDigitalSensorButton{
+private:
+    ///int value; pas sûr qu'on en ai besoin
+    int frequency;
 public:
-    IntelligentDigitalActuatorLED(int t);   
+    NoisyButton(int d, int freq, string n, string f);
+    int pushed(); 
+    virtual void run();
+    
+};
+
+
+
+///////////////////////////////////////////ACTUATORS/////////////////////////////////////////
+////definition d'une classe pour les actionneurs
+class Actuator:public Device{
+protected:
+    int delay;
+    bool state;
+    string name;
+public:
+    Actuator(int d,bool s,string n);
+};
+
+
+///definition de la clase ui va produire l'explosion
+class Explosion:public Actuator{
+public:
+    Explosion(int d,bool s,string n);
     virtual void run();
 };
 
 
-class ExternalDigitalSensorButton : public Device {
-private :
-  bool m_on=false;
 
+////definition de la classe pour le Timer
+class Timer:public Actuator{
+private:
+    int counter;
+    int update;///valeur à soustraire au timer en cas d'erreur
 public:
-  ExternalDigitalSensorButton();
-  ~ExternalDigitalSensorButton();
-  bool getandsetbutton();
-  virtual void run();
-
+    Timer(int d, bool s, int c,int u,string n);
+    virtual void run();
 };
+
+
+
+
+// exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
+class DigitalActuatorLED: public Actuator {
+protected:
+    string color;
+  
+public:
+  // initialisation du temps de rafraichiisement
+  DigitalActuatorLED(int d, string n, string col);
+  // thread representant l'actionneur et permettant de fonctionner independamment de la board
+  virtual void run();
+};
+
+////mise à jour de la classe des led intelligentes mais on va pas s'en servir
+class IntelligentDigitalActuatorLED : public DigitalActuatorLED{
+public:
+    IntelligentDigitalActuatorLED(int d, string n, string col);   
+    virtual void run();
+};
+
+////Classe permettant l'émission de son pour, la mélodie, la résolution d'une partie du puzzle et pour l'explosion
+class Noise :public Actuator{
+private:
+    int frequency;
+public:
+    Noise(int d, int freq, bool s, string n);
+    virtual void run();
+};
+
+
 
 // exemple d'actionneur sur le bus I2C permettant d'echanger des tableaux de caracteres : un ecran, ne pas oublier d'heriter de Device
 class I2CActuatorScreen : public Device{

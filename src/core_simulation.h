@@ -10,9 +10,9 @@
 #define TEMP 22
 #define HIGH 1
 #define LOW 0
-#define MAX_I2C_DEVICES 4
-#define I2C_BUFFER_SIZE 1024
-#define MAX_IO_PIN 6
+#define MAX_I2C_DEVICES 4 ////valeur initiale 4
+#define I2C_BUFFER_SIZE 1024 ////valeur initiale 1024
+#define MAX_IO_PIN 6 ////valeur initiale 6
 
 using namespace std;
 

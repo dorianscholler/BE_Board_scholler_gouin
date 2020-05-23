@@ -24,9 +24,6 @@ public:
     Sensor(int delay, string name);  
 };
 
-
-
-
 // exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
 class AnalogSensorTemperature: public Sensor {
 private:
@@ -80,7 +77,6 @@ public:
 };
 
 
-
 ///////////////////////////////////////////ACTUATORS/////////////////////////////////////////
 ////definition d'une classe pour les actionneurs
 class Actuator:public Device{
@@ -95,10 +91,12 @@ public:
 
 ///definition de la clase ui va produire l'explosion
 class Explosion:public Actuator{
+    int frequency;
 public:
     Explosion(int d,bool s,string n);
     void setState(bool s);
     bool getState();
+    int getFreq();
 };
 
 
@@ -119,8 +117,6 @@ public:
 };
 
 
-
-
 // exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
 class DigitalActuatorLED: public Actuator {
 protected:
@@ -132,6 +128,8 @@ public:
   // thread representant l'actionneur et permettant de fonctionner independamment de la board
   virtual void run();
 };
+
+
 
 ////mise à jour de la classe des led intelligentes mais on va pas s'en servir
 class IntelligentDigitalActuatorLED : public DigitalActuatorLED{

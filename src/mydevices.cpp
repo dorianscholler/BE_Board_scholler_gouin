@@ -114,6 +114,7 @@ void Explosion::setState(bool s){state=s;}
 bool Explosion::getState(){return state;}
 
 
+
 /////classe Timer
 Timer::Timer(int d, bool s, int c, int u, string n):Actuator(d,s,n),counter(c),update(u){}
 
@@ -130,10 +131,8 @@ void DigitalActuatorLED::run(){
   while(1){
     if(ptrmem!=NULL)
       state=*ptrmem;
-    if (state==LOW)
-      cout << "LED" << color<< " eteint\n";
-    else
-    cout << "LED " << color<< " allume\n";
+    if (state==LOW){cout << name<< " eteint\n";}
+    else{cout << name<< " allume : " << color<<'\n';}
     sleep(delay);
     }
 }

@@ -1,9 +1,10 @@
 #include <unistd.h>
 #include "core_simulation.h"
 
+
 // la fonction d'initialisation d'arduino
 void Board::setup(){
-  // on configure la vitesse de la liaison
+ /* // on configure la vitesse de la liaison
   Serial.begin(9600);
 // on fixe les pin en entree et en sorite en fonction des capteurs/actionneurs mis sur la carte
   pinMode(1,INPUT);
@@ -19,9 +20,43 @@ void Board::setup(){
   pinMode(4,INPUT);
   
   ///test pour NoisyButton
-  pinMode(5,INPUT);
+  pinMode(5,INPUT);*/
+    
+    
+    ///configuration de la vitesse de liaison
+    Serial.begin(9600);
+    
+    ///CAPTEUR DE LUMINOSITE
+    pinMode(0,INPUT);
+    
+    ///BOUTON DE VERIFICATION
+    pinMode(1,INPUT);
+    
+    ///BOUTONS ON OFF
+    pinMode(2,INPUT);
+    pinMode(3,INPUT);
+    pinMode(4,INPUT);
+    pinMode(5,INPUT);
+    
+    ///CLAVIER DIGITAL
+    pinMode(6,INPUT);
+    pinMode(7,INPUT);
+    pinMode(8,INPUT);
+    pinMode(9,INPUT);
+    pinMode(10,INPUT);
+    pinMode(11,INPUT);
+    pinMode(12,INPUT);
+    pinMode(13,INPUT);
+    pinMode(14,INPUT);
+    
+    ///LEDS
+    pinMode(15,OUTPUT);
+    pinMode(16,OUTPUT);
+    pinMode(17,OUTPUT);
 }
 
+
+/*
 // la boucle de controle arduino
 void Board::loop(){
   char buf[100];
@@ -65,10 +100,6 @@ void Board::loop(){
       //toutes les 5 fois affichage également de la luminosité 
       sprintf(buf,"%d",val_lum);
       bus.write(2,buf,100);
-      
-      ///TEST NOISYBUTTON
-      //sprintf(buf,"%d",son);
-      //bus.write(3,buf,100);
     }
     cpt++;
     sleep(1);
@@ -93,7 +124,22 @@ void Board::loop(){
   bascule=1-bascule;
 
   
+}*/
+void Board::loop(){
+    char buf[100];///definition du buffer d'écriture
+    int val_lum;////valeur mesurée par le capteur de luminosité
+    
+    val_lum=analogRead(0);
+    if(val_lum==0){
+        cout<<"capteur de lum couvert\n";
+        digitalWrite(15,HIGH);
+        
+    }
+    else{
+        cout<<"capteur de lum pas couvert\n";
+    }
+    sleep(2);
+           
 }
-
 
 

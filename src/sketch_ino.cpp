@@ -9,7 +9,7 @@ void Board::setup(){
   pinMode(1,INPUT);
   pinMode(0,OUTPUT);
   
-  ///on fixe la pin du capteur de luminsié en INPUT
+  ///on fixe la pin du capteur de luminosité en INPUT
   pinMode(2,INPUT);
   
   //on règle la LED intelligente en output
@@ -25,7 +25,7 @@ void Board::setup(){
 // la boucle de controle arduino
 void Board::loop(){
   char buf[100];
-  int val;
+  //int val;
   int val_lum;///valeur enregistrée par le capteur de luminosité
   int son=0;
   int etat_bouton;
@@ -39,7 +39,7 @@ void Board::loop(){
     //sprintf(buf,"temperature %d",val);
    // Serial.println(buf);
 
-    //lecture sur la pin 0 : capteur de luminosité
+    //lecture sur la pin 2 : capteur de luminosité
     val_lum=analogRead(2);
     sprintf(buf,"luminosite ambiante : %d",val_lum);
     Serial.println(buf);
@@ -52,7 +52,6 @@ void Board::loop(){
     
     //lecture sur la pin 4 : bouton on//off
     etat_bouton=analogRead(4);
-    
     sprintf(buf,"Le bouton vaut %d",etat_bouton);
     Serial.println(buf);
     
@@ -60,11 +59,13 @@ void Board::loop(){
     
     if(cpt%5==0){
       // tous les 5 fois on affiche sur l'écran la temperature
-      sprintf(buf,"%d",val);
-      bus.write(1,buf,100);
+      // sprintf(buf,"%d",val);
+      //bus.write(1,buf,100);
+        
       //toutes les 5 fois affichage également de la luminosité 
       sprintf(buf,"%d",val_lum);
       bus.write(2,buf,100);
+      
       ///TEST NOISYBUTTON
       //sprintf(buf,"%d",son);
       //bus.write(3,buf,100);

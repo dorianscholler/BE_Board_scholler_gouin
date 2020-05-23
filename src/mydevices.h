@@ -97,7 +97,8 @@ public:
 class Explosion:public Actuator{
 public:
     Explosion(int d,bool s,string n);
-    virtual void run();
+    void setState(bool s);
+    bool getState();
 };
 
 
@@ -109,7 +110,12 @@ private:
     int update;///valeur à soustraire au timer en cas d'erreur
 public:
     Timer(int d, bool s, int c,int u,string n);
+    /*void ErrorReduction();
+    void Start();
+    void Stop();*/
     virtual void run();
+    
+    
 };
 
 
@@ -135,11 +141,11 @@ public:
 };
 
 ////Classe permettant l'émission de son pour, la mélodie, la résolution d'une partie du puzzle et pour l'explosion
-class Noise :public Actuator{
+class Buzzer :public Actuator{
 private:
     int frequency;
 public:
-    Noise(int d, int freq, bool s, string n);
+    Buzzer(int d, int freq, bool s, string n);
     virtual void run();
 };
 

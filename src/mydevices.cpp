@@ -69,7 +69,6 @@ bool ExternalDigitalSensorButton::getandsetbutton(){
 
 void ExternalDigitalSensorButton::run(){
   while(1){
-     *ptrmem=400; 
     if(ptrmem!=NULL){
       *ptrmem=getandsetbutton();
     }
@@ -111,11 +110,15 @@ Actuator::Actuator(int d, bool s, string n):Device(),delay(d),state(s),name(n){}
 
 ////classe explosion
 Explosion::Explosion(int d, bool s, string n):Actuator(d,s,n){}
-void Explosion::run(){}
+void Explosion::setState(bool s){state=s;}
+bool Explosion::getState(){return state;}
 
 
 /////classe Timer
 Timer::Timer(int d, bool s, int c, int u, string n):Actuator(d,s,n),counter(c),update(u){}
+
+void ErrorReduction(){}
+
 void Timer::run(){}
 
 
@@ -128,9 +131,9 @@ void DigitalActuatorLED::run(){
     if(ptrmem!=NULL)
       state=*ptrmem;
     if (state==LOW)
-      cout << "((((eteint))))\n";
+      cout << "LED" << color<< " eteint\n";
     else
-    cout << "((((allume))))\n";
+    cout << "LED " << color<< " allume\n";
     sleep(delay);
     }
 }
@@ -144,13 +147,13 @@ void IntelligentDigitalActuatorLED::run(){
         if(ptrmem!=NULL)
           state=*ptrmem;
         if (state==LOW){
-            cout << "((((SMART LED LOW))))\n";
+            cout << "LED " << color<< " SMART LED LOW\n";
             if (old_State==HIGH){
                 luminosite_environnement-=50;
             }
         }
         else{
-            cout << "((((SMART LED HIGH))))\n";
+            cout << "LED " << color<< " SMART LED HIGH\n";
             if(old_State==LOW){
                 luminosite_environnement+=50;
             }
@@ -163,8 +166,8 @@ void IntelligentDigitalActuatorLED::run(){
 
 
 ////class Noise pour l'émission de son
-Noise::Noise(int d, int freq, bool s, string n):Actuator(d,s,n),frequency(freq){}
-void Noise::run(){}
+Buzzer::Buzzer(int d, int freq, bool s, string n):Actuator(d,s,n),frequency(freq){}
+void Buzzer::run(){}
 
 
 // classe I2CActuatorScreen

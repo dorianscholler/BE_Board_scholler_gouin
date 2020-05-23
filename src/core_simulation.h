@@ -1,8 +1,6 @@
 #ifndef CORE_SIMULATEUR_H
 #define CORE_SIMULATEUR_H
 
-#include "mydevices.h"
-
 #include <iostream>
 #include <string>
 #include <thread>

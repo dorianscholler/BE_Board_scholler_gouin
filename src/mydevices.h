@@ -24,6 +24,9 @@ public:
     Sensor(int delay, string name);  
 };
 
+
+
+
 // exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
 class AnalogSensorTemperature: public Sensor {
 private:
@@ -75,6 +78,7 @@ public:
     virtual void run();
     
 };
+
 
 
 ///////////////////////////////////////////ACTUATORS/////////////////////////////////////////

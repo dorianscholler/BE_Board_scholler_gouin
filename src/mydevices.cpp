@@ -11,18 +11,31 @@ Sensor::Sensor(int d, string n):Device(),delay(d),name(n){
 alea=1;
 }
 
-//classe AnalogSensorTemperature
-AnalogSensorTemperature::AnalogSensorTemperature(int value,int de,string n):Sensor(de,n),val(value){}
 
-void AnalogSensorTemperature::run(){
-  while(1){
-    alea=1-alea;
-    if(ptrmem!=NULL)
-      *ptrmem=val+alea;
-    sleep(delay);
-  }
+//classe ExternalAnalogicalSensorWire
+ExternalAnalogicalSensorWire::ExternalAnalogicalSensorWire(int d, int v, string n, string f):Sensor(d,n),value(v),file(f){}
+
+bool ExternalAnalogicalSensorWire::connect(){
+    if (ifstream(file)){;
+        return true;
+    }
+    else{
+        return false;
+    }
 }
-
+void ExternalAnalogicalSensorWire::run(){
+    while(1){
+        if(ptrmem!=NULL){
+            if (connect()){
+                *ptrmem=value;
+            }
+            else{
+                *ptrmem=0;
+            }
+        }
+        sleep(delay);
+    }
+}
 
 
 //classe AnalogSensorLuminosity
@@ -122,7 +135,6 @@ void ErrorReduction(){}
 void Timer::run(){}
 
 
-
 //classe DigitalActuatorLED
 DigitalActuatorLED::DigitalActuatorLED(int d, string n, string col):Actuator(d,LOW,n),color(col){}
 
@@ -136,8 +148,8 @@ void DigitalActuatorLED::run(){
     }
 }
 
-/*
-SwitchClueLED::SwitchClueLED(int d, string n, string col):DigitalActuatorLED(d,n,col){}
+
+SwitchClueLED::SwitchClueLED(int d,int p, string n, string col):DigitalActuatorLED(d,n,col), pin(p){}
 void SwitchClueLED::run(){
     while(1){
         if(ptrmem!=NULL)
@@ -146,57 +158,29 @@ void SwitchClueLED::run(){
              //on clignote 1 fois pour signaler que le switch 1 doit être sur on
             //digitalWrite(18,HIGH);
             //sleep(1);
-            digitalWrite(18,LOW);
+            digitalWrite(pin,LOW);
             sleep(delay);
     
             //on clignote 3 fois pour signaler que le switch 3 doit être sur on
             for (int i=0;i<2;i++){
-                digitalWrite(18,HIGH);
+                digitalWrite(pin,HIGH);
                 sleep(1);
-                digitalWrite(18,LOW);
+                digitalWrite(pin,LOW);
                 sleep(1);
             } 
             sleep(delay);
     
             //on clignote 4 fois pour signaler que le switch 4 doit être sur on
             for (int i=0;i<3;i++){
-                digitalWrite(18,HIGH);
+                digitalWrite(pin,HIGH);
                 sleep(1);
-                digitalWrite(18,LOW);
+                digitalWrite(pin,LOW);
                 sleep(1);
             }
             sleep(delay+1); 
         }
     }
-}*/
-
-/*/
-//class IntelligentDigitalActuatorLED
-IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int d, string n, string col):DigitalActuatorLED(d,n,col){}
-
-void IntelligentDigitalActuatorLED::run(){
-    int old_State=LOW;
-    while(1){
-        if(ptrmem!=NULL)
-          state=*ptrmem;
-        if (state==LOW){
-            cout << "LED " << color<< " SMART LED LOW\n";
-            if (old_State==HIGH){
-                luminosite_environnement-=50;
-            }
-        }
-        else{
-            cout <<"LED " << color<< " SMART LED HIGH\n";
-            if(old_State==LOW){
-                luminosite_environnement+=50;
-            }
-        }
-        old_State=state;
-        sleep(delay);
-    }
 }
-*/
-
 
 ////class Noise pour l'émission de son
 Buzzer::Buzzer(int d, int freq, int s, string n):Actuator(d,s,n),frequency(freq){}

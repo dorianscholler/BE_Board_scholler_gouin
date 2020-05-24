@@ -24,21 +24,16 @@ public:
     Sensor(int delay, string name);  
 };
 
-
-
-
-// exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
-class AnalogSensorTemperature: public Sensor {
+////création d'une classe qui va nous permettre de récupérer la valeur analogique reçue par une pin
+class ExternalAnalogicalSensorWire:public Sensor{
 private:
-  // valeur de temperature mesuree
-  int val;
+    int value;
+    string file;
 public:
-  //constructeur ne pas oublier d'initialiser la classe mere
-  AnalogSensorTemperature(int  value, int de, string n);
-  // thread representant le capteur et permettant de fonctionner independamment de la board
-  virtual void run();
+    ExternalAnalogicalSensorWire(int d, int v, string n, string f);
+    bool connect();
+    virtual void run();    
 };
-
 
 ////classe pour le capteur de luminosité
 class AnalogSensorLuminosity:public Sensor{
@@ -131,22 +126,15 @@ public:
   virtual void run();
 };
 
-/*
+
 ////création d'une classe de LED qui donne un indice pour le switch
 class SwitchClueLED:public DigitalActuatorLED, public Board{
+    int pin;
 public:
-    SwitchClueLED(int d, string n, string col);
+    SwitchClueLED(int d,int p, string n, string col);
     virtual void run();
 };
-*/
-/*
-////mise à jour de la classe des led intelligentes mais on va pas s'en servir
-class IntelligentDigitalActuatorLED : public DigitalActuatorLED{
-public:
-    IntelligentDigitalActuatorLED(int d, string n, string col);   
-    virtual void run();
-};
-*/
+
 
 ////Classe permettant l'émission de son pour, la mélodie, la résolution d'une partie du puzzle et pour l'explosion
 class Buzzer :public Actuator{

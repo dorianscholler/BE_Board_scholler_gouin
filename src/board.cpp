@@ -13,18 +13,23 @@ int main(){
   ///CREATION DES LEDS
   DigitalActuatorLED led_switch(DELAY,"la led des switch ","rouge");
   DigitalActuatorLED led_pad(DELAY,"la led du clavier ","rouge");
-  //DigitalActuatorLED led_wire(DELAY,"la led des fils ","rouge");
+  DigitalActuatorLED led_wire(DELAY,"la led des fils ","rouge");
   
   ///LED indice
-  DigitalActuatorLED switch_clue(DELAY,"Led indice ","bleu");
+  SwitchClueLED switch_clue(DELAY,18,"Led indice ","bleu");
   
   ///LEDs signalant la conclusion d'une enigme
   DigitalActuatorLED switch_done(DELAY,"switch résolu ","vert");
-  //DigitalActuatorLED pad_done(DELAY,"clavier résolu ","vert");
-  //DigitalActuatorLED wire_done(DELAY,"fils résolu ","vert");
+  DigitalActuatorLED pad_done(DELAY,"clavier résolu ","vert");
+  DigitalActuatorLED wire_done(DELAY,"fils résolu ","vert");
+  
+  ///CREATION DES CAPTEUR DE TENSION POUR LE BLOC DE FILS
+  ExternalAnalogicalSensorWire wire1(DELAY,10,"capteur analogique","connect10.txt");
+  ExternalAnalogicalSensorWire wire2(DELAY,140,"capteur analogique","connect140.txt");
+  ExternalAnalogicalSensorWire wire3(DELAY,320,"capteur analogique","connect320.txt");
   
   ///CREATION DE L'ECRAN
-  I2CActuatorScreen screen;
+  //I2CActuatorScreen screen;
   
   ///CREATION DU CAPTEUR DE LUMINOSITE
   AnalogSensorLuminosity luminosity(DELAY,"capteur de luminosite","couvert.txt");
@@ -78,22 +83,27 @@ int main(){
   
   //LEDS
   esp8266.pin(15,led_switch);
-  esp8266.pin(23,led_pad);
-  //esp8266.pin(17,led_wire);
+  esp8266.pin(16,led_pad);
+  esp8266.pin(17,led_wire);
   
   //LED INDICE
   esp8266.pin(18,switch_clue);
   
   ///LEDs signalant la conclusion d'une enigme
   esp8266.pin(19,switch_done);
-  //esp8266.pin(20,pad_done);
-  //esp8266.pin(21,wire_done);
+  esp8266.pin(20,pad_done);
+  esp8266.pin(21,wire_done);
+  
+  ///CONNECTIONS DES CAPTEURS POUR LES FILS
+  esp8266.pin(22,wire1);
+  esp8266.pin(23,wire2);
+  esp8266.pin(24,wire3);
   
   //BUZZER
-  esp8266.pin(22,buzzer);
+  esp8266.pin(25,buzzer);
   
   
-  esp8266.i2c(1,screen);
+  //esp8266.i2c(1,screen);
    
   //allumage de la carte
   esp8266.run();

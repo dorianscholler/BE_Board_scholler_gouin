@@ -58,7 +58,7 @@ ExternalDigitalSensorButton::ExternalDigitalSensorButton(int d, string n, string
 ExternalDigitalSensorButton::~ExternalDigitalSensorButton(){}
 
 bool ExternalDigitalSensorButton::getandsetbutton(){
-  if (ifstream("on.txt")){
+  if (ifstream(file)){
     state=true;  
   }
   else{
@@ -137,13 +137,35 @@ void DigitalActuatorLED::run(){
 }
 
 /*
-SwitchClueLED::SwitchClueLED(int d, string n, string col):DigitalActuatorLED(d,n,col);
+SwitchClueLED::SwitchClueLED(int d, string n, string col):DigitalActuatorLED(d,n,col){}
 void SwitchClueLED::run(){
     while(1){
         if(ptrmem!=NULL)
         state=*ptrmem;
         if (state==HIGH){
-            
+             //on clignote 1 fois pour signaler que le switch 1 doit être sur on
+            //digitalWrite(18,HIGH);
+            //sleep(1);
+            digitalWrite(18,LOW);
+            sleep(delay);
+    
+            //on clignote 3 fois pour signaler que le switch 3 doit être sur on
+            for (int i=0;i<2;i++){
+                digitalWrite(18,HIGH);
+                sleep(1);
+                digitalWrite(18,LOW);
+                sleep(1);
+            } 
+            sleep(delay);
+    
+            //on clignote 4 fois pour signaler que le switch 4 doit être sur on
+            for (int i=0;i<3;i++){
+                digitalWrite(18,HIGH);
+                sleep(1);
+                digitalWrite(18,LOW);
+                sleep(1);
+            }
+            sleep(delay+1); 
         }
     }
 }*/

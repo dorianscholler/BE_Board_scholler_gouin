@@ -33,7 +33,7 @@ void Board::setup(){
     
     ///LEDS
     pinMode(15,OUTPUT);
-    pinMode(16,OUTPUT);
+    pinMode(23,OUTPUT);
     //pinMode(17,OUTPUT);
     
     ///LED INDICE
@@ -52,27 +52,37 @@ void Board::setup(){
 void Board::clue_switch(){
     //on clignote 1 fois pour signaler que le switch 1 doit être sur on
     digitalWrite(18,HIGH);
-    sleep(0.5);
+    sleep(1);
     digitalWrite(18,LOW);
     sleep(3);
     
     //on clignote 3 fois pour signaler que le switch 3 doit être sur on
     for (int i=0;i<2;i++){
         digitalWrite(18,HIGH);
-        sleep(0.5);
+        sleep(1);
         digitalWrite(18,LOW);
-        sleep(0.5);
+        sleep(1);
     } 
     sleep(3);
     
     //on clignote 4 fois pour signaler que le switch 4 doit être sur on
     for (int i=0;i<3;i++){
         digitalWrite(18,HIGH);
-        sleep(0.5);
+        sleep(1);
         digitalWrite(18,LOW);
-        sleep(0.5);
+        sleep(1);
     }
     sleep(5);   
+}
+
+bool tab_equal(int tab1[],int tab2[],int taille){
+    bool equal=true;
+    for (int i=0;i<taille;i++){
+        if (tab1[i]!=tab2[i]){
+            equal=false;
+        }   
+    }
+    return equal;
 }
 
 void Board::loop(){
@@ -89,14 +99,17 @@ void Board::loop(){
     int tab_s_needed[4]={1,0,1,1};
     
     val_lum=analogRead(0);
+    cout<<endl;
     if(val_lum==0){
         cout<<"capteur de lum couvert\n";
         ////démarage du timer
         if (step==0){
             if (started==0){
                 digitalWrite(15,HIGH);///on alume la diode de la section des interrupteurs
+                //digitalWrite(18,HIGH);
             }
-            clue_switch();
+            cout<<"\n ON EST LA \n";
+            
             
             /////on met a jour le tableau des valeurs des switchs
             for (int i=0;i<4;i++){
@@ -104,23 +117,26 @@ void Board::loop(){
             }
             
             verif_button=analogRead(1);
+            cout<<verif_button;
             if (verif_button==1){///on rearde si une demande de vérification est faite
-                if(tab_switch==tab_s_needed){///si les switchs sont dans le bon ordre
+                cout<<"\n LE BOUTON VERIF MARCHE\n";
+                if(tab_equal(tab_switch,tab_s_needed,4)){///si les switchs sont dans le bon ordre
                     digitalWrite(15,LOW);///on éteint la led rouge
                     digitalWrite(19,HIGH);///on allume la led verte de résolution
-                    digitalWrite(16,HIGH);///on allume la led rouge de la section clavier avec son
+                    //digitalWrite(23,HIGH);///on allume la led rouge de la section clavier avec son
                   
                     ////emettre un son?
                     
                     step++;///on passe à l'étape suivante
                 }
                 else{
+                    //digitalWrite(18,HIGH);
                     ////réduction du temps
                 }
             }  
         }
         else if (step==1){
-            
+            cout<<"\n ETAPE 1 CLEAR\n";
         }
         else if (step==2){
             
@@ -130,6 +146,7 @@ void Board::loop(){
     else{
         cout<<"capteur de lum pas couvert\n";
     }
+    cout<<endl;
     sleep(2);
            
 }

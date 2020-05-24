@@ -16,7 +16,7 @@ int main(){
   //DigitalActuatorLED led_wire(DELAY,"la led des fils ","rouge");
   
   ///LED indice
-  DigitalActuatorLED switch_clue(DELAY,"Led indice ","bleu");
+  SwitchClueLED switch_clue(DELAY,"Led indice ","bleu");
   
   ///LEDs signalant la conclusion d'une enigme
   DigitalActuatorLED switch_done(DELAY,"switch résolu ","vert");
@@ -30,7 +30,7 @@ int main(){
   AnalogSensorLuminosity luminosity(DELAY,"capteur de luminosite","couvert.txt");
   
   ///CREATION DU BOUTON DE VERIFICATION
-  ExternalDigitalSensorButton verif_button(DELAY,"bouton de verification","verification.txt");
+  ExternalDigitalSensorButton verif_button(DELAY,"bouton de verification","verif.txt");
   
   ///CREATION DES BOUTONS ON OFF
   ExternalDigitalSensorButton switch1(DELAY,"bouton 1","switch1.txt");
@@ -78,7 +78,7 @@ int main(){
   
   //LEDS
   esp8266.pin(15,led_switch);
-  esp8266.pin(16,led_pad);
+  esp8266.pin(23,led_pad);
   //esp8266.pin(17,led_wire);
   
   //LED INDICE

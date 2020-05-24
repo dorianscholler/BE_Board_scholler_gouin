@@ -124,9 +124,8 @@ public:
     // fonction arduino : boucle de controle de la carte arduino
   void loop();
   ////fonction pour donner un indice à la résolution du premier bloc
-    void clue_switch();
+   void clue_switch();
 };
-
 
 
 #endif

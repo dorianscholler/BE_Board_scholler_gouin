@@ -133,12 +133,12 @@ public:
 
 /*
 ////création d'une classe de LED qui donne un indice pour le switch
-class SwitchClueLED:public DigitalActuatorLED{
+class SwitchClueLED:public DigitalActuatorLED, public Board{
 public:
     SwitchClueLED(int d, string n, string col);
     virtual void run();
-};*/
-
+};
+*/
 
 ////mise à jour de la classe des led intelligentes mais on va pas s'en servir
 class IntelligentDigitalActuatorLED : public DigitalActuatorLED{

@@ -85,18 +85,17 @@ bool tab_equal(int tab1[],int tab2[],int taille){
     return equal;
 }
 
+int step=0;///permet d'empêcher les manipulation des autres blocs que celui sur lequel on est censé travailler
+int started=0;///permet de savoir quand le décompte de temps a commencé
+
 void Board::loop(){
     //char buf[100];///definition du buffer d'écriture
     int val_lum;////valeur mesurée par le capteur de luminosité
-    
-    int started=0;///permet de savoir quand le décompte de temps a commencé
-    
-    int step=0;///permet d'empêcher les manipulation des autres blocs que celui sur lequel on est censé travailler
-    
+    //int started=0;///permet de savoir quand le décompte de temps a commencé
+    //int step=0;///permet d'empêcher les manipulation des autres blocs que celui sur lequel on est censé travailler
     int verif_button;///stockage de l'état du bouton de vérification
-    
     int tab_switch[4];///table dans laquelle on va stocker la valeur des switch
-    int tab_s_needed[4]={1,0,1,1};
+    int tab_s_needed[4]={1,0,1,1};///position des switch qui permet de débloquer l'étape
     
     val_lum=analogRead(0);
     cout<<endl;
@@ -108,26 +107,21 @@ void Board::loop(){
                 digitalWrite(15,HIGH);///on alume la diode de la section des interrupteurs
                 //digitalWrite(18,HIGH);
             }
-            cout<<"\n ON EST LA \n";
-            
-            
+                     
             /////on met a jour le tableau des valeurs des switchs
             for (int i=0;i<4;i++){
                 tab_switch[i]=analogRead(2+i);
             }
             
             verif_button=analogRead(1);
-            cout<<verif_button;
             if (verif_button==1){///on rearde si une demande de vérification est faite
-                cout<<"\n LE BOUTON VERIF MARCHE\n";
                 if(tab_equal(tab_switch,tab_s_needed,4)){///si les switchs sont dans le bon ordre
                     digitalWrite(15,LOW);///on éteint la led rouge
                     digitalWrite(19,HIGH);///on allume la led verte de résolution
-                    //digitalWrite(23,HIGH);///on allume la led rouge de la section clavier avec son
-                  
+                    digitalWrite(23,HIGH);///on allume la led rouge de la section clavier avec son
                     ////emettre un son?
                     
-                    step++;///on passe à l'étape suivante
+                    step++;///on passe à l'étape suivant
                 }
                 else{
                     //digitalWrite(18,HIGH);

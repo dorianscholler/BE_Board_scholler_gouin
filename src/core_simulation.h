@@ -12,7 +12,7 @@
 #define LOW 0
 #define MAX_I2C_DEVICES 4 ////valeur initiale 4
 #define I2C_BUFFER_SIZE 1024 ////valeur initiale 1024
-#define MAX_IO_PIN 20 ////valeur initiale 6
+#define MAX_IO_PIN 25 ////valeur initiale 6
 
 using namespace std;
 
@@ -123,7 +123,11 @@ public:
   void setup();
     // fonction arduino : boucle de controle de la carte arduino
   void loop();
+  ////fonction pour donner un indice à la résolution du premier bloc
+    void clue_switch();
 };
+
+
 
 #endif
 

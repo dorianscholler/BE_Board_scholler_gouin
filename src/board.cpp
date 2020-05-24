@@ -3,41 +3,7 @@
 
 
 int main(){
-    /*/
-  // creation d'une board
-  Board esp8266;
-  
-  // achat des senseurs et actionneurs
-  AnalogSensorTemperature temperature(TEMP,DELAY,"capteur temperature");
-  IntelligentDigitalActuatorLED led1(DELAY,"led 1","violet");
-  I2CActuatorScreen screen;
-  //création d'un capteur de luminosité
-  AnalogSensorLuminosity luminosity(DELAY,"capteur de luminosite","couvert.txt");
-  //LED Intelligente
-  IntelligentDigitalActuatorLED led2(DELAY,"led 2","blouge");
-  //senseur ExternalDigitalSensorButton
-  ExternalDigitalSensorButton button(DELAY,"bouton digital","calier num");
-  ///test pour les boutons avec sonorité
-  NoisyButton noise(DELAY, 500, "boutton bruit", "son_actif.txt");
-
- 
-
-  // branchement des capteurs actionneurs
-  esp8266.pin(0,led1);
-  esp8266.pin(1,temperature);
-  esp8266.pin(2,luminosity);
-  esp8266.pin(3,led2);
-  esp8266.pin(4,button);
-  esp8266.pin(5,noise);
-  
-   esp8266.i2c(1,screen);
-   
-  // allumage de la carte
-  esp8266.run();
-  
-  return 0;
-   */
-    
+      
   // creation d'une board
   Board esp8266;
   
@@ -47,7 +13,15 @@ int main(){
   ///CREATION DES LEDS
   DigitalActuatorLED led_switch(DELAY,"la led des switch ","rouge");
   DigitalActuatorLED led_pad(DELAY,"la led du clavier ","rouge");
-  DigitalActuatorLED led_wire(DELAY,"la led des fils ","rouge");
+  //DigitalActuatorLED led_wire(DELAY,"la led des fils ","rouge");
+  
+  ///LED indice
+  DigitalActuatorLED switch_clue(DELAY,"Led indice ","bleu");
+  
+  ///LEDs signalant la conclusion d'une enigme
+  DigitalActuatorLED switch_done(DELAY,"switch résolu ","vert");
+  //DigitalActuatorLED pad_done(DELAY,"clavier résolu ","vert");
+  //DigitalActuatorLED wire_done(DELAY,"fils résolu ","vert");
   
   ///CREATION DE L'ECRAN
   I2CActuatorScreen screen;
@@ -74,6 +48,9 @@ int main(){
   NoisyButton digi7(DELAY,700,"bouton digital 7","7.txt");
   NoisyButton digi8(DELAY,800,"bouton digital 8","8.txt");
   NoisyButton digi9(DELAY,900,"bouton digital 9","9.txt");
+  
+  ///CREATION DU BUZZER
+  Buzzer buzzer(DELAY,400,LOW,"emmetteur de son");
   
   ///BRANCHEMENT SUR LES PINS
   //capteur de luminosité
@@ -102,7 +79,18 @@ int main(){
   //LEDS
   esp8266.pin(15,led_switch);
   esp8266.pin(16,led_pad);
-  esp8266.pin(17,led_wire);
+  //esp8266.pin(17,led_wire);
+  
+  //LED INDICE
+  esp8266.pin(18,switch_clue);
+  
+  ///LEDs signalant la conclusion d'une enigme
+  esp8266.pin(19,switch_done);
+  //esp8266.pin(20,pad_done);
+  //esp8266.pin(21,wire_done);
+  
+  //BUZZER
+  esp8266.pin(22,buzzer);
   
   
   esp8266.i2c(1,screen);

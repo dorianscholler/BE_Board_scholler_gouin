@@ -99,7 +99,7 @@ Device::Device(){
 
 void Device::run(){
   while(1){
-    cout << "empty device\n";
+    //cout <<"empty device\n";
     sleep(3);
   }
 }

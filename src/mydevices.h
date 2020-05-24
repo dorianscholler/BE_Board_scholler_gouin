@@ -86,21 +86,19 @@ public:
 class Actuator:public Device{
 protected:
     int delay;
-    bool state;
+    int state;
     string name;
 public:
-    Actuator(int d,bool s,string n);
+    Actuator(int d,int s,string n);
+    int getState();
+    void setState(int s);
 };
 
 
 ///definition de la clase ui va produire l'explosion
 class Explosion:public Actuator{
-    int frequency;
 public:
-    Explosion(int d,bool s,string n);
-    void setState(bool s);
-    bool getState();
-    int getFreq();
+    Explosion(int d,int s,string n);
 };
 
 
@@ -111,7 +109,7 @@ private:
     int counter;
     int update;///valeur à soustraire au timer en cas d'erreur
 public:
-    Timer(int d, bool s, int c,int u,string n);
+    Timer(int d, int s, int c,int u,string n);
     /*void ErrorReduction();
     void Start();
     void Stop();*/
@@ -133,6 +131,13 @@ public:
   virtual void run();
 };
 
+/*
+////création d'une classe de LED qui donne un indice pour le switch
+class SwitchClueLED:public DigitalActuatorLED{
+public:
+    SwitchClueLED(int d, string n, string col);
+    virtual void run();
+};*/
 
 
 ////mise à jour de la classe des led intelligentes mais on va pas s'en servir
@@ -147,8 +152,8 @@ class Buzzer :public Actuator{
 private:
     int frequency;
 public:
-    Buzzer(int d, int freq, bool s, string n);
-    virtual void run();
+    Buzzer(int d, int freq, int s, string n);
+    void makeNoise(int freq);
 };
 
 

@@ -104,19 +104,18 @@ void NoisyButton::run(){
 
 ////////////////////////////////////ACTUATORS//////////////////////////////////////////
 ////classe Actuator
-Actuator::Actuator(int d, bool s, string n):Device(),delay(d),state(s),name(n){}
-
+Actuator::Actuator(int d, int s, string n):Device(),delay(d),state(s),name(n){}
+int Actuator::getState(){return state;}
+void Actuator::setState(int s){state=s;}
 
 
 ////classe explosion
-Explosion::Explosion(int d, bool s, string n):Actuator(d,s,n){}
-void Explosion::setState(bool s){state=s;}
-bool Explosion::getState(){return state;}
+Explosion::Explosion(int d, int s, string n):Actuator(d,s,n){}
 
 
 
 /////classe Timer
-Timer::Timer(int d, bool s, int c, int u, string n):Actuator(d,s,n),counter(c),update(u){}
+Timer::Timer(int d, int s, int c, int u, string n):Actuator(d,s,n),counter(c),update(u){}
 
 void ErrorReduction(){}
 
@@ -137,6 +136,19 @@ void DigitalActuatorLED::run(){
     }
 }
 
+/*
+SwitchClueLED::SwitchClueLED(int d, string n, string col):DigitalActuatorLED(d,n,col);
+void SwitchClueLED::run(){
+    while(1){
+        if(ptrmem!=NULL)
+        state=*ptrmem;
+        if (state==HIGH){
+            
+        }
+    }
+}*/
+
+
 //class IntelligentDigitalActuatorLED
 IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int d, string n, string col):DigitalActuatorLED(d,n,col){}
 
@@ -152,7 +164,7 @@ void IntelligentDigitalActuatorLED::run(){
             }
         }
         else{
-            cout << "LED " << color<< " SMART LED HIGH\n";
+            cout <<"LED " << color<< " SMART LED HIGH\n";
             if(old_State==LOW){
                 luminosite_environnement+=50;
             }
@@ -165,9 +177,11 @@ void IntelligentDigitalActuatorLED::run(){
 
 
 ////class Noise pour l'émission de son
-Buzzer::Buzzer(int d, int freq, bool s, string n):Actuator(d,s,n),frequency(freq){}
-void Buzzer::run(){}
-
+Buzzer::Buzzer(int d, int freq, int s, string n):Actuator(d,s,n),frequency(freq){}
+void Buzzer::makeNoise(int freq){
+    frequency=freq;
+    cout<<frequency<<'\n';
+}
 
 // classe I2CActuatorScreen
 I2CActuatorScreen::I2CActuatorScreen ():Device(){}
@@ -176,7 +190,7 @@ void I2CActuatorScreen::run(){
   while(1){
     if ( (i2cbus!=NULL)&&!(i2cbus->isEmptyRegister(i2caddr))){
       Device::i2cbus->requestFrom(i2caddr, buf, I2C_BUFFER_SIZE);
-      cout << "---screen :"<< buf << endl;
+      cout <<"---screen :"<< buf << endl;
     }
     sleep(1);
     }

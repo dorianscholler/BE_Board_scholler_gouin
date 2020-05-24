@@ -16,7 +16,7 @@ int main(){
   //DigitalActuatorLED led_wire(DELAY,"la led des fils ","rouge");
   
   ///LED indice
-  SwitchClueLED switch_clue(DELAY,"Led indice ","bleu");
+  DigitalActuatorLED switch_clue(DELAY,"Led indice ","bleu");
   
   ///LEDs signalant la conclusion d'une enigme
   DigitalActuatorLED switch_done(DELAY,"switch résolu ","vert");

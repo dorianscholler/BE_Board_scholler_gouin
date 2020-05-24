@@ -139,13 +139,14 @@ public:
     virtual void run();
 };
 */
-
+/*
 ////mise à jour de la classe des led intelligentes mais on va pas s'en servir
 class IntelligentDigitalActuatorLED : public DigitalActuatorLED{
 public:
     IntelligentDigitalActuatorLED(int d, string n, string col);   
     virtual void run();
 };
+*/
 
 ////Classe permettant l'émission de son pour, la mélodie, la résolution d'une partie du puzzle et pour l'explosion
 class Buzzer :public Actuator{

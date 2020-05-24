@@ -170,7 +170,7 @@ void SwitchClueLED::run(){
     }
 }*/
 
-
+/*/
 //class IntelligentDigitalActuatorLED
 IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int d, string n, string col):DigitalActuatorLED(d,n,col){}
 
@@ -195,7 +195,7 @@ void IntelligentDigitalActuatorLED::run(){
         sleep(delay);
     }
 }
-
+*/
 
 
 ////class Noise pour l'émission de son

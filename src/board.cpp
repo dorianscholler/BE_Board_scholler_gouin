@@ -64,7 +64,12 @@ int main(){
   AnalogSensorLuminosity luminosity(0.5,"capteur de luminosite","couvert.txt");
   
   ///CREATION DU BOUTON DE VERIFICATION
-  ExternalDigitalSensorButton verif_button(DELAY,"bouton de verification","verif.txt");
+  ExternalDigitalSensorButton verif_b1(DELAY,"bouton de verification","verif1.txt");
+  ExternalDigitalSensorButton verif_b2(DELAY,"bouton de verification","verif2.txt");
+  ExternalDigitalSensorButton verif_b3(DELAY,"bouton de verification","verif3.txt");
+  
+  ///Bouton Start
+  ExternalDigitalSensorButton start(DELAY,"bouton start","start.txt");
   
   ///CREATION DES BOUTONS ON OFF
   ExternalDigitalSensorButton switch1(DELAY,"bouton 1","switch1.txt");
@@ -88,19 +93,27 @@ int main(){
   //int tab[9]={320,200,560,149,600,589,305,789,654};
   //Buzzer buzzer(DELAY,tab,LOW,"emmetteur de son");
   
+  ///CREATION DE L'EXLOSION
+  Explosion explode(DELAY,"exploision");
+  
 
   ///BRANCHEMENT SUR LES PINS
   //capteur de luminosité
   esp8266.pin(0,luminosity);
   
   //bouton de verification
-  esp8266.pin(1,verif_button);
+  esp8266.pin(1,verif_b1);
+  esp8266.pin(30,verif_b2);
+  esp8266.pin(31,verif_b3);
   
   //bouton on/off
   esp8266.pin(2,switch1);
   esp8266.pin(3,switch2);
   esp8266.pin(4,switch3);
   esp8266.pin(5,switch4);
+  
+  //bouton start
+  esp8266.pin(32,start);
   
   //clavier digital
   esp8266.pin(6,digi1);
@@ -130,6 +143,9 @@ int main(){
   esp8266.pin(22,wire1);
   esp8266.pin(23,wire2);
   esp8266.pin(24,wire3);
+  
+  ///connection du capteur d'exposion
+  esp8266.pin(29,explode);
   
   //BUZZER
   //esp8266.pin(25,buzzer);

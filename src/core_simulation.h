@@ -12,7 +12,7 @@
 #define LOW 0
 #define MAX_I2C_DEVICES 4 ////valeur initiale 4
 #define I2C_BUFFER_SIZE 1024 ////valeur initiale 1024
-#define MAX_IO_PIN 30 ////valeur initiale 6
+#define MAX_IO_PIN 40 ////valeur initiale 6
 #define HP 25 ///on définie la pin du haut parleur pour pouvoir emettre les sons des noisy button
 #define FREQ 9///on définit le nombre de fréquence de notre mélodie
 #define MELODY_DONE 1////permet de savoir si la mélodie a été jouée

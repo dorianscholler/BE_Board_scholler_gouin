@@ -148,17 +148,11 @@ Explosion::Explosion(int d, string n):Actuator(d,LOW,n){}
 void Explosion::run(){
     while (1){
         if(ptrmem!=NULL){
+            state=*ptrmem;
             if (state==HIGH){
                 analogWrite(HP,1000);
-                
-                analogWrite(pSwitch,HIGH);
-                analogWrite(pPad,HIGH);
-                analogWrite(pWire,HIGH);
-                
-                analogWrite(pSdone,LOW);
-                analogWrite(pPdone,LOW);
-                analogWrite(pWdone,LOW);
-                
+                sleep(1);
+                analogWrite(HP,0);
             }
         }
     }
@@ -172,7 +166,6 @@ Timer::Timer(int d, int s, int c, int u, string n):Actuator(d,s,n),counter(c),up
 void ErrorReduction(){}
 
 void Timer::run(){}
-
 
 //classe DigitalActuatorLED
 DigitalActuatorLED::DigitalActuatorLED(int d, string n, string col):Actuator(d,LOW,n),color(col){}
@@ -221,35 +214,6 @@ void SwitchClueLED::run(){
         }
     }
 }
-
-////class Noise pour l'émission de son
-//Buzzer::Buzzer(int d, int *frequencies, int s, string n):Actuator(d,s,n),Board(),m_frequencies(frequencies){}
-
-/*
-void Buzzer::Liremelody(int pin){
-  for(int i=0 ; i<FREQ+1;i++){
-    analogWrite(pin,m_frequencies[i]);
-    sleep(1);
-  }
-melodyfini=true;
-}*/
-
-
-/*
-void Buzzer::makeNoise(int freq){
-    frequency=freq;
-    cout<<frequency<<'\n';
-}
-
-void Buzzer::run(){
-  while(1){
-    if(ptrmem!=NULL)
-      *ptrmem=;
-      cout<<freq;
-      sleep(delay);
-    }
-}
-*/
 
 // classe I2CActuatorScreen
 I2CActuatorScreen::I2CActuatorScreen ():Device(){}

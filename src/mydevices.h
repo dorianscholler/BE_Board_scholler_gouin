@@ -137,23 +137,6 @@ public:
     virtual void run();
 };
 
-
-////Classe permettant l'émission de son pour, la mélodie, la résolution d'une partie du puzzle et pour l'explosion
-/*class Buzzer :public Actuator,public Board{
-private:
-    friend class NoisyButton;
-    int *m_frequencies;
-    bool melodyfini=false;
-public:
-    Buzzer(int d, int *frequencies, int s, string n);
-    //void Liremelody(int pin);
-    //virtual void run();
-    //void makeNoise(int freq);
-
-};*/
-
-
-
 // exemple d'actionneur sur le bus I2C permettant d'echanger des tableaux de caracteres : un ecran, ne pas oublier d'heriter de Device
 class I2CActuatorScreen : public Device{
 protected:

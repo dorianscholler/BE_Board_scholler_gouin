@@ -12,6 +12,8 @@ void Board::setup(){
     
     ///BOUTON DE VERIFICATION
     pinMode(1,INPUT);
+    pinMode(30,INPUT);
+    pinMode(31,INPUT);
     
     ///BOUTONS ON OFF
     pinMode(2,INPUT);
@@ -55,20 +57,26 @@ void Board::setup(){
     pinMode(22,INPUT);
     pinMode(23,INPUT);
     pinMode(24,INPUT);
+    
+    ///pin pour le bouton start
+    pinMode(32,INPUT);
    
+    ////explosion définie comme input 
+    analogWrite(29,INPUT);
     
     ////petite initialisation des leds 
     ///initialisation des LED à l'état bas
     for (int i=0; i<7;i++){
         analogWrite(15+i,0);
     }   
+    
+    ///initialisation de l'explosion 
+    analogWrite(29,0);
 
     ///initialisation des pin de désamorçage
     analogWrite(26,10);
     analogWrite(27,140);
     analogWrite(28,320);  
-    
-   
 }
 
 
@@ -82,37 +90,37 @@ bool tab_equal(int tab1[],int tab2[],int taille){
     return equal;
 }
 
+
+int tab_switch[4];///table dans laquelle on va stocker la valeur des switch
+int tab_s_needed[4]={1,0,1,1};///position des switch qui permet de débloquer l'étape
+
+/////on donne le tableau de solution pour les fils
+int tab_wire_needed[3]={10,140,320};
+int tab_wire[4]; 
+///création du tableau de note pour la mélodie
+int melody[9]={300,200,500,100,600,700,400,800,900};  
 //////definitions des variables externes à notre fonction, nécessité de faire bien attention aux mdiffications
 int step=0;///permet d'empêcher les manipulation des autres blocs que celui sur lequel on est censé travailler
 int started=0;///permet de savoir quand le décompte de temps a commencé
-
+int erreur=0;
 
 void Board::loop(){
-    
-    //char buf[100];///definition du buffer d'écriture
+    char buf[100];///definition du buffer d'écriture
     int val_lum;////valeur mesurée par le capteur de luminosité
     int verif_button;///stockage de l'état du bouton de vérification
-    int tab_switch[4];///table dans laquelle on va stocker la valeur des switch
-    int tab_s_needed[4]={1,0,1,1};///position des switch qui permet de débloquer l'étape
+    int start_button;///detecte l'activation du bouton start
     
-    /////on donne le tableau de solution pour les fils
-    int tab_wire_needed[3]={10,140,320};
-    int tab_wire[4];
-  
-    ///création du tableau de note pour la mélodie
-    int melody[9]={320,200,560,149,600,589,305,789,654};
-    
+      
     val_lum=analogRead(0);
     cout<<endl;
-    if(val_lum==19){////and time !=0;
+    if(val_lum==19 && erreur<5){
         cout<<"capteur de lum couvert\n";
         ////démarage du timer
         if (step==0){
             
             if (started==0){
-                
-                digitalWrite(15,HIGH);///on alume la diode de la section des interrupteurs
-                digitalWrite(18,HIGH);
+                digitalWrite(pSwitch,HIGH);///on alume la diode de la section des interrupteurs
+                digitalWrite(pClue,HIGH);///on lance l'indice en parallèle pour ne pas bloquer l'exéution du code
             }  
             
             /////on met a jour le tableau des valeurs des switchs
@@ -125,20 +133,35 @@ void Board::loop(){
                     digitalWrite(pSwitch,LOW);///on éteint la led rouge
                     digitalWrite(pSdone,HIGH);///on allume la led verte de résolution de l'étape
                     digitalWrite(pPad,HIGH);///on allume la led rouge de la section clavier avec son pour indiquer la prochaine zone à manipuler
-                    ////emettre un son?
                     
                     step++;///on passe à l'étape suivant
-                    started=0;///on réinitialise pour pouvoir s'en resservir dans la prochaine étape
                     PlayMelody(melody,HP);///lecture de la mélodie à reproduire pendant cette lecture le programme est en attente
                 }
                 else{
-                    digitalWrite(pClue,HIGH);
-                    ////réduction du temps
+                    erreur++;
+                    sprintf(buf,"erreur %d/5",erreur);
+                    Serial.println(buf);
+                    if (erreur!=5){
+                        digitalWrite(pClue,HIGH);///on redonne l'indice visuel en lancant le clignottement des LEDs
+                    }
+                    else {
+                        analogWrite(29,HIGH); ///on active l'explosion
+                                        
+                        ////on allume toutes les led rouges
+                        digitalWrite(pSwitch,HIGH);
+                        digitalWrite(pPad,HIGH);
+                        digitalWrite(pWire,HIGH);
+                        
+                        ///et on éteint toutes les autres
+                        digitalWrite(pSdone,LOW);
+                        digitalWrite(pPdone,LOW);
+                        digitalWrite(pWdone,LOW);
+                    }
                 }
             } 
         }
         else if (step==1){
-            verif_button=analogRead(1);
+            verif_button=analogRead(30);
             if (verif_button==1){
                 
                 digitalWrite(pPad,LOW);///on éteint la led rouge
@@ -156,7 +179,7 @@ void Board::loop(){
             for (int i=0;i<3;i++){
                 tab_wire[i]=analogRead(22+i);///on relève les valeurs stockée sur les pin de réception de la partie wire
             }
-            verif_button=analogRead(1);
+            verif_button=analogRead(31);
             if (verif_button==1){
                 
                 if (tab_equal(tab_wire,tab_wire_needed,3)){
@@ -165,23 +188,49 @@ void Board::loop(){
                     digitalWrite(pWdone,HIGH);
                     
                     sleep(5);
-                    
-                    ////on arrete le timer
                 }
                 else{
-                    ///réduction du temps
-                }
-            }  
-        }    
+                    erreur++;
+                    sprintf(buf,"erreur %d/5",erreur);
+                    Serial.println(buf);                    
+                    if (erreur==5){
+                        digitalWrite(29,HIGH); ///on active l'explosion
+                        
+                        ////on allume toutes les led rouges
+                        digitalWrite(pSwitch,HIGH);
+                        digitalWrite(pPad,HIGH);
+                        digitalWrite(pWire,HIGH);
+                        
+                        ///et on éteint toutes les autres
+                        digitalWrite(pSdone,LOW);
+                        digitalWrite(pPdone,LOW);
+                        digitalWrite(pWdone,LOW);
+                    }         
+                }  
+            }    
+        }
     }
-    else{////et temps !=0
+    else if (erreur<5){////et temps !=0
         cout<<"capteur de lum pas couvert\n";
     }
-    
-    /*ELSE EXPLOSION*/
-                
-    sleep(1);
-           
+    else{
+        ///si il y eu les 5 erreur on quitte tout il faut recommencer
+        sprintf(buf,"Vous avez échoué");
+        Serial.println(buf);
+         
+        ///on éteint toutes les LED restantes
+        digitalWrite(pSwitch,LOW);
+        digitalWrite(pPad,LOW);
+        digitalWrite(pWire,LOW);
+        
+        start_button=digitalRead(32);
+        if (start_button!=0){
+            step=0;
+            started=0;
+            erreur=0;     
+        }  
+    }
+    sleep(1);        
 }
 
 

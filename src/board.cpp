@@ -1,13 +1,13 @@
 #include "core_simulation.h"
 #include "mydevices.h"
 
-int tab[NBFREQ]={320,200,560,149,600,589,305,789,654};
 
-Buzzer buzzer(DELAY,tab,LOW,"emmetteur de son");
+
+/*
   
 int NoisyButton::pushed(){
-  if (ifstream(file)){
-    nbreactif++; 
+  //if (ifstream(file)){
+    /*nbreactif++; 
     //avoir si ca marche // 
     if (nbreactif==1 and buzzer.melodyfini){
       return frequency;
@@ -28,8 +28,8 @@ int NoisyButton::pushed(){
   else{
     nbreactif=0;
     return 0;
-  }
-}
+  //}
+}*/
 
 int main(){
       
@@ -61,7 +61,7 @@ int main(){
   //I2CActuatorScreen screen;
   
   ///CREATION DU CAPTEUR DE LUMINOSITE
-  AnalogSensorLuminosity luminosity(DELAY,"capteur de luminosite","couvert.txt");
+  AnalogSensorLuminosity luminosity(0.5,"capteur de luminosite","couvert.txt");
   
   ///CREATION DU BOUTON DE VERIFICATION
   ExternalDigitalSensorButton verif_button(DELAY,"bouton de verification","verif.txt");
@@ -73,29 +73,21 @@ int main(){
   ExternalDigitalSensorButton switch4(DELAY,"bouton 4","switch4.txt");
   
   ///CREATION DU CLAVIER AVEC SON
-  NoisyButton digi1(DELAY,100,"bouton digital 1","1.txt");
-  NoisyButton digi2(DELAY,200,"bouton digital 2","2.txt");
-  NoisyButton digi3(DELAY,300,"bouton digital 3","3.txt");
-  NoisyButton digi4(DELAY,400,"bouton digital 4","4.txt");
-  NoisyButton digi5(DELAY,500,"bouton digital 5","5.txt");
-  NoisyButton digi6(DELAY,600,"bouton digital 6","6.txt");
-  NoisyButton digi7(DELAY,700,"bouton digital 7","7.txt");
-  NoisyButton digi8(DELAY,800,"bouton digital 8","8.txt");
-  NoisyButton digi9(DELAY,900,"bouton digital 9","9.txt");
-  
+  NoisyButton digi1(DELAY,100,HP,"bouton digital 1","1.txt");
+  NoisyButton digi2(DELAY,200,HP,"bouton digital 2","2.txt");
+  NoisyButton digi3(DELAY,300,HP,"bouton digital 3","3.txt");
+  NoisyButton digi4(DELAY,400,HP,"bouton digital 4","4.txt");
+  NoisyButton digi5(DELAY,500,HP,"bouton digital 5","5.txt");
+  NoisyButton digi6(DELAY,600,HP,"bouton digital 6","6.txt");
+  NoisyButton digi7(DELAY,700,HP,"bouton digital 7","7.txt");
+  NoisyButton digi8(DELAY,800,HP,"bouton digital 8","8.txt");
+  NoisyButton digi9(DELAY,900,HP,"bouton digital 9","9.txt");
+ 
   ///CREATION DU BUZZER
   //voir création dans mydevices pour cause probleme variable ami melodyfini
-
-  /*
-  int tab[9]={320,200,560,149,600,589,305,789,654};
-  Buzzer buzzer(DELAY,tab,LOW,"emmetteur de son");
-  */
-
-
-
-
-
-
+  //int tab[9]={320,200,560,149,600,589,305,789,654};
+  //Buzzer buzzer(DELAY,tab,LOW,"emmetteur de son");
+  
 
   ///BRANCHEMENT SUR LES PINS
   //capteur de luminosité
@@ -140,7 +132,7 @@ int main(){
   esp8266.pin(24,wire3);
   
   //BUZZER
-  esp8266.pin(25,buzzer);
+  //esp8266.pin(25,buzzer);
   
   
   //esp8266.i2c(1,screen);

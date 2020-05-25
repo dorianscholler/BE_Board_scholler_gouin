@@ -54,7 +54,7 @@ void AnalogSensorLuminosity::run(){
   while(1){
     if(ptrmem!=NULL){
         if (covered()){
-            *ptrmem=0;
+            *ptrmem=19;
         }
         else{
         *ptrmem=luminosite_environnement;
@@ -94,7 +94,7 @@ void ExternalDigitalSensorButton::run(){
 
 
 
-NoisyButton::NoisyButton(int d, int freq, string n, string f):ExternalDigitalSensorButton(d,n,f), Board(),frequency(freq){}
+NoisyButton::NoisyButton(int d, int freq,int p, string n, string f):ExternalDigitalSensorButton(d,n,f),frequency(freq),pin(p){}
 ///////////// test probleme varibale melodi fini voir board.cpp
 
 /*
@@ -102,10 +102,10 @@ NoisyButton::NoisyButton(int d, int freq, string n, string f):ExternalDigitalSen
     if (ifstream(file)){
       nbreactif++; 
       //avoir si ca marche // quand reinitialisé la variale qui compte le nombre de bouton ?
-      if (nbreactif==1 and buzzer.melodyfini){
+      if (nbreactif==1 and melodyfini){
         return frequency;
       }
-      else if (nbreactif!=1 and buzzer.melodyfini==false){
+      else if (nbreactif!=1 and melodyfini==false){
         cout<<"ATTENTION : Deux boutons activés en même temps et melodie non terminée. Veuillez à appuyer sur un seul bouton en même temps et à attendre la fin de la melodie"<<endl;
         return 0;
       }
@@ -124,7 +124,7 @@ NoisyButton::NoisyButton(int d, int freq, string n, string f):ExternalDigitalSen
     }
   }
 */
-void NoisyButton::run(int pin){
+void NoisyButton::run(){
   while(1){
     if(pushed()!=0){
       analogWrite(pin,pushed());
@@ -163,8 +163,9 @@ void DigitalActuatorLED::run(){
   while(1){
     if(ptrmem!=NULL)
         state=*ptrmem;
-    if (state==LOW){cout << name<< " eteint\n";}
-    else{cout << name<< " allume : " << color<<'\n';}
+    //if (state==LOW){cout << name<< " eteint\n";}
+    //else{cout << name<< " allume : " << color<<'\n';}
+    if (state==HIGH){cout << name<< " allume : " << color<<'\n';}
     sleep(delay);
     }
 }
@@ -177,8 +178,8 @@ void SwitchClueLED::run(){
         state=*ptrmem;
         if (state==HIGH){
             //on clignote 1 fois pour signaler que le switch 1 doit être sur on
-            //digitalWrite(18,HIGH);
-            //sleep(1);
+            digitalWrite(18,HIGH);///thibs avait commenté
+            sleep(1);//idem
             digitalWrite(pin,LOW);
             sleep(delay);
     
@@ -204,15 +205,18 @@ void SwitchClueLED::run(){
 }
 
 ////class Noise pour l'émission de son
-Buzzer::Buzzer(int d, int *frequencies, int s, string n):Actuator(d,s,n),Board(),m_frequencies(frequencies){}
+//Buzzer::Buzzer(int d, int *frequencies, int s, string n):Actuator(d,s,n),Board(),m_frequencies(frequencies){}
 
-void Buzzer::Liremelody(int *freq, int pin){
-  for(int i=0 ; i<NBFREQ+1;i++){
-    analogWrite(pin,freq[i]);
+/*
+void Buzzer::Liremelody(int pin){
+  for(int i=0 ; i<FREQ+1;i++){
+    analogWrite(pin,m_frequencies[i]);
     sleep(1);
   }
 melodyfini=true;
-}
+}*/
+
+
 /*
 void Buzzer::makeNoise(int freq){
     frequency=freq;

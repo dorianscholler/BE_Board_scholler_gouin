@@ -174,3 +174,12 @@ void Board::i2c(int addr,Device& dev){
   tabthreadbus[addr]=new thread(&Device::run,&dev);
 }
 
+void Board::PlayMelody(int freq[FREQ],int pin){
+    for(int i=0 ; i<FREQ;i++){
+        analogWrite(pin,freq[i]);
+        //cout<<'\n'<<freq[i]<<'\n';
+        sleep(1);
+    }
+}
+
+    

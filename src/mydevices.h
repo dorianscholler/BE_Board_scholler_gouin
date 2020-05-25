@@ -92,9 +92,10 @@ public:
 
 
 ///definition de la clase ui va produire l'explosion
-class Explosion:public Actuator{
+class Explosion:public Actuator,Board{
 public:
     Explosion(int d,string n);
+    virtual void run();
 };
 
 

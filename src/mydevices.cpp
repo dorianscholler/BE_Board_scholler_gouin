@@ -125,12 +125,12 @@ NoisyButton::NoisyButton(int d, int freq,int p, string n, string f):ExternalDigi
   }
 */
 void NoisyButton::run(){
-  while(1){
+  /*while(1){
     if(pushed()!=0){
       analogWrite(pin,pushed());
     }
     sleep(delay); 
-  }        
+  } */       
 }
 
 
@@ -145,6 +145,24 @@ void Actuator::setState(int s){state=s;}
 
 ////classe explosion
 Explosion::Explosion(int d, string n):Actuator(d,LOW,n){}
+void Explosion::run(){
+    while (1){
+        if(ptrmem!=NULL){
+            if (state==HIGH){
+                analogWrite(HP,1000);
+                
+                analogWrite(pSwitch,HIGH);
+                analogWrite(pPad,HIGH);
+                analogWrite(pWire,HIGH);
+                
+                analogWrite(pSdone,LOW);
+                analogWrite(pPdone,LOW);
+                analogWrite(pWdone,LOW);
+                
+            }
+        }
+    }
+}
 
 
 

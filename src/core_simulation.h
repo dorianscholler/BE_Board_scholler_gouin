@@ -17,7 +17,14 @@
 #define FREQ 9///on définit le nombre de fréquence de notre mélodie
 #define MELODY_DONE 1////permet de savoir si la mélodie a été jouée
 
-
+////pin pour les leds qui sont manipullée par plusieurs fonction
+#define pSwitch 15
+#define pPad 16
+#define pWire 17
+#define pClue 18
+#define pSdone 19
+#define pPdone 20
+#define pWdone 21
 
 using namespace std;
 

@@ -7,7 +7,7 @@
   
 int NoisyButton::pushed(){
   //if (ifstream(file)){
-    /*nbreactif++; 
+    nbreactif++; 
     //avoir si ca marche // 
     if (nbreactif==1 and buzzer.melodyfini){
       return frequency;
@@ -114,17 +114,17 @@ int main(){
   esp8266.pin(14,digi9);
   
   //LEDS
-  esp8266.pin(15,led_switch);
-  esp8266.pin(16,led_pad);
-  esp8266.pin(17,led_wire);
+  esp8266.pin(pSwitch,led_switch);
+  esp8266.pin(pPad,led_pad);
+  esp8266.pin(pWire,led_wire);
   
   //LED INDICE
-  esp8266.pin(18,switch_clue);
+  esp8266.pin(pClue,switch_clue);
   
   ///LEDs signalant la conclusion d'une enigme
-  esp8266.pin(19,switch_done);
-  esp8266.pin(20,pad_done);
-  esp8266.pin(21,wire_done);
+  esp8266.pin(pSdone,switch_done);
+  esp8266.pin(pPdone,pad_done);
+  esp8266.pin(pWdone,wire_done);
   
   ///CONNECTIONS DES CAPTEURS POUR LES FILS
   esp8266.pin(22,wire1);

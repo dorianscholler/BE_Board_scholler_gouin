@@ -180,6 +180,7 @@ void Board::PlayMelody(int freq[FREQ],int pin){
         //cout<<'\n'<<freq[i]<<'\n';
         sleep(1);
     }
+    analogWrite(pin,0); ////rajouter pour indiquer que la PIN du haut parleur est libre
 }
 
     

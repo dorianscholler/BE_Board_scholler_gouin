@@ -122,9 +122,9 @@ void Board::loop(){
             verif_button=analogRead(1);
             if (verif_button==1){///on rearde si une demande de vérification est faite
                 if(tab_equal(tab_switch,tab_s_needed,4)){///si les switchs sont dans le bon ordre
-                    digitalWrite(15,LOW);///on éteint la led rouge
-                    digitalWrite(19,HIGH);///on allume la led verte de résolution de l'étape
-                    digitalWrite(16,HIGH);///on allume la led rouge de la section clavier avec son pour indiquer la prochaine zone à manipuler
+                    digitalWrite(pSwitch,LOW);///on éteint la led rouge
+                    digitalWrite(pSdone,HIGH);///on allume la led verte de résolution de l'étape
+                    digitalWrite(pPad,HIGH);///on allume la led rouge de la section clavier avec son pour indiquer la prochaine zone à manipuler
                     ////emettre un son?
                     
                     step++;///on passe à l'étape suivant
@@ -132,7 +132,7 @@ void Board::loop(){
                     PlayMelody(melody,HP);///lecture de la mélodie à reproduire pendant cette lecture le programme est en attente
                 }
                 else{
-                    digitalWrite(18,HIGH);
+                    digitalWrite(pClue,HIGH);
                     ////réduction du temps
                 }
             } 
@@ -141,9 +141,9 @@ void Board::loop(){
             verif_button=analogRead(1);
             if (verif_button==1){
                 
-                digitalWrite(16,LOW);///on éteint la led rouge
-                digitalWrite(17,HIGH);///on allume la led rouge de la section fils pour indiquer la prochaine zone à manipuler
-                digitalWrite(20,HIGH);///on allume la led verte de résolution de l'étape
+                digitalWrite(pPad,LOW);///on éteint la led rouge
+                digitalWrite(pWire,HIGH);///on allume la led rouge de la section fils pour indiquer la prochaine zone à manipuler
+                digitalWrite(pPdone,HIGH);///on allume la led verte de résolution de l'étape
                 //freq=analogRead(25);
                 //sprintf(buf,"temperature %d",val);
                 //Serial.println(buf);
@@ -161,8 +161,8 @@ void Board::loop(){
                 
                 if (tab_equal(tab_wire,tab_wire_needed,3)){
                    
-                    digitalWrite(17,LOW);
-                    digitalWrite(21,HIGH);
+                    digitalWrite(pWire,LOW);
+                    digitalWrite(pWdone,HIGH);
                     
                     sleep(5);
                     

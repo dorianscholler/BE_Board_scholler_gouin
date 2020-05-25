@@ -187,7 +187,19 @@ void Board::loop(){
                     digitalWrite(pWire,LOW);
                     digitalWrite(pWdone,HIGH);
                     
-                    sleep(5);
+                    sprintf(buf,"seriez vous un enseignant incroyable?");
+                    Serial.println(buf);
+                    
+                    digitalWrite(pSdone,LOW);
+                    digitalWrite(pPdone,LOW);
+                    digitalWrite(pWdone,LOW);
+                    
+                    start_button=digitalRead(32);
+                    if (start_button!=0){
+                        step=0;
+                        started=0;
+                        erreur=0;     
+                    } 
                 }
                 else{
                     erreur++;

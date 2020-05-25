@@ -58,7 +58,7 @@ int main(){
   ExternalAnalogicalSensorWire wire3(DELAY,320,"capteur analogique","connect320.txt");
   
   ///CREATION DE L'ECRAN
-  //I2CActuatorScreen screen;
+  I2CActuatorScreen screen;
   
   ///CREATION DU CAPTEUR DE LUMINOSITE
   AnalogSensorLuminosity luminosity(0.5,"capteur de luminosite","couvert.txt");
@@ -151,7 +151,7 @@ int main(){
   //esp8266.pin(25,buzzer);
   
   
-  //esp8266.i2c(1,screen);
+  esp8266.i2c(1,screen);
    
   //allumage de la carte
   esp8266.run();

@@ -140,7 +140,8 @@ void Board::loop(){
                 else{
                     erreur++;
                     sprintf(buf,"erreur %d/5",erreur);
-                    Serial.println(buf);
+                    //Serial.println(buf);
+                    bus.write(1,buf,100);
                     if (erreur!=5){
                         digitalWrite(pClue,HIGH);///on redonne l'indice visuel en lancant le clignottement des LEDs
                     }
@@ -188,7 +189,8 @@ void Board::loop(){
                     digitalWrite(pWdone,HIGH);
                     
                     sprintf(buf,"seriez vous un enseignant incroyable?");
-                    Serial.println(buf);
+                    //Serial.println(buf);
+                    bus.write(1,buf,100);
                     
                     digitalWrite(pSdone,LOW);
                     digitalWrite(pPdone,LOW);
@@ -204,7 +206,8 @@ void Board::loop(){
                 else{
                     erreur++;
                     sprintf(buf,"erreur %d/5",erreur);
-                    Serial.println(buf);                    
+                    //Serial.println(buf);    
+                    bus.write(1,buf,100);
                     if (erreur==5){
                         digitalWrite(29,HIGH); ///on active l'explosion
                         
@@ -228,7 +231,8 @@ void Board::loop(){
     else{
         ///si il y eu les 5 erreur on quitte tout il faut recommencer
         sprintf(buf,"Vous avez échoué");
-        Serial.println(buf);
+        //Serial.println(buf);
+        bus.write(1,buf,100);
          
         ///on éteint toutes les LED restantes
         digitalWrite(pSwitch,LOW);

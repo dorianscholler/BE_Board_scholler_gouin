@@ -97,40 +97,20 @@ void ExternalDigitalSensorButton::run(){
 NoisyButton::NoisyButton(int d, int freq,int p, string n, string f):ExternalDigitalSensorButton(d,n,f),frequency(freq),pin(p){}
 ///////////// test probleme varibale melodi fini voir board.cpp
 
-/*
-  int NoisyButton::pushed(){
-    if (ifstream(file)){
-      nbreactif++; 
-      //avoir si ca marche // quand reinitialisé la variale qui compte le nombre de bouton ?
-      if (nbreactif==1 and melodyfini){
-        return frequency;
-      }
-      else if (nbreactif!=1 and melodyfini==false){
-        cout<<"ATTENTION : Deux boutons activés en même temps et melodie non terminée. Veuillez à appuyer sur un seul bouton en même temps et à attendre la fin de la melodie"<<endl;
-        return 0;
-      }
-      else if (nbreactif!=1){
-        cout<<"ATTENTION : Deux boutons activés en même temps. Veuillez à appuyer sur un seul bouton en même temps"<<endl;
-        return 0;
-      }
-      else {
-        cout<<"ATTENTION : Melodie non terminée. Veuillez à attendre la fin de la melodie."<<endl;
-        return 0;
-      }
-    }
-    else{
-      nbreactif=0;
-      return 0;
-    }
-  }
-*/
 void NoisyButton::run(){
-  /*while(1){
-    if(pushed()!=0){
-      analogWrite(pin,pushed());
+  while(1){
+    if(ptrmem!=NULL){
+        if (ifstream(file)){
+            state=true;
+            analogWrite(pin,frequency);
+        }
+        else{
+            state=false;
+        }
+        *ptrmem=state;
     }
     sleep(delay); 
-  } */       
+  }      
 }
 
 

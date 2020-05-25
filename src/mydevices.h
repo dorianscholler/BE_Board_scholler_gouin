@@ -67,12 +67,8 @@ class NoisyButton : public ExternalDigitalSensorButton, public Board{
 private:
     int frequency;
     int pin;
-    int nbreactif=0;
-
-    //string *p={};
 public:
     NoisyButton(int d, int freq,int p, string n, string f);
-    int pushed(); 
     virtual void run();
     
 };

@@ -98,7 +98,9 @@ int tab_s_needed[4]={1,0,1,1};///position des switch qui permet de débloquer l'
 int tab_wire_needed[3]={10,140,320};
 int tab_wire[4]; 
 ///création du tableau de note pour la mélodie
-int melody[9]={300,200,500,100,600,700,400,800,900};  
+int melody[4]={300,200,500,900}; 
+int b_melody[9]={0,1,1,0,1,0,0,0,1};
+int tab_melo[9];
 //////definitions des variables externes à notre fonction, nécessité de faire bien attention aux mdiffications
 int step=0;///permet d'empêcher les manipulation des autres blocs que celui sur lequel on est censé travailler
 int started=0;///permet de savoir quand le décompte de temps a commencé
@@ -164,16 +166,39 @@ void Board::loop(){
         else if (step==1){
             verif_button=analogRead(30);
             if (verif_button==1){
-                
-                digitalWrite(pPad,LOW);///on éteint la led rouge
-                digitalWrite(pWire,HIGH);///on allume la led rouge de la section fils pour indiquer la prochaine zone à manipuler
-                digitalWrite(pPdone,HIGH);///on allume la led verte de résolution de l'étape
-                //freq=analogRead(25);
-                //sprintf(buf,"temperature %d",val);
-                //Serial.println(buf);
-
-                step++;
-                started=0;
+                for (int i=0;i<9;i++){
+                    tab_melo[i]=analogRead(6+i);
+                }
+                if (tab_equal(tab_melo,b_melody,9)){
+                    digitalWrite(pPad,LOW);///on éteint la led rouge
+                    digitalWrite(pWire,HIGH);///on allume la led rouge de la section fils pour indiquer la prochaine zone à manipuler
+                    digitalWrite(pPdone,HIGH);///on allume la led verte de résolution de l'étape
+                    step++;    
+                }
+                else{
+                    erreur++;
+                    sprintf(buf,"erreur %d/5",erreur);
+                    //Serial.println(buf);
+                    bus.write(1,buf,100);
+                    if (erreur!=5){
+                        PlayMelody(melody,HP);///lecture de la mélodie à reproduire pendant cette lecture le programme est en attente
+                    }
+                    else {
+                        analogWrite(29,HIGH); ///on active l'explosion
+                                        
+                        ////on allume toutes les led rouges
+                        digitalWrite(pSwitch,HIGH);
+                        digitalWrite(pPad,HIGH);
+                        digitalWrite(pWire,HIGH);
+                        
+                        ///et on éteint toutes les autres
+                        digitalWrite(pSdone,LOW);
+                        digitalWrite(pPdone,LOW);
+                        digitalWrite(pWdone,LOW);
+                    }
+                    
+                    
+                }
             }            
         }
         else if (step==2){

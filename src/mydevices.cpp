@@ -92,21 +92,42 @@ void ExternalDigitalSensorButton::run(){
  
 //Classe pour les bouttons qui emettent une sonorité
 
-NoisyButton::NoisyButton(int d, int freq, string n, string f):ExternalDigitalSensorButton(d,n,f),frequency(freq){}
 
-int NoisyButton::pushed(){
+
+NoisyButton::NoisyButton(int d, int freq, string n, string f):ExternalDigitalSensorButton(d,n,f), Board(),frequency(freq){}
+///////////// test probleme varibale melodi fini voir board.cpp
+
+/*
+  int NoisyButton::pushed(){
     if (ifstream(file)){
+      nbreactif++; 
+      //avoir si ca marche // quand reinitialisé la variale qui compte le nombre de bouton ?
+      if (nbreactif==1 and buzzer.melodyfini){
         return frequency;
+      }
+      else if (nbreactif!=1 and buzzer.melodyfini==false){
+        cout<<"ATTENTION : Deux boutons activés en même temps et melodie non terminée. Veuillez à appuyer sur un seul bouton en même temps et à attendre la fin de la melodie"<<endl;
+        return 0;
+      }
+      else if (nbreactif!=1){
+        cout<<"ATTENTION : Deux boutons activés en même temps. Veuillez à appuyer sur un seul bouton en même temps"<<endl;
+        return 0;
+      }
+      else {
+        cout<<"ATTENTION : Melodie non terminée. Veuillez à attendre la fin de la melodie."<<endl;
+        return 0;
+      }
     }
     else{
-        return 0;
+      nbreactif=0;
+      return 0;
     }
-}
-
-void NoisyButton::run(){
+  }
+*/
+void NoisyButton::run(int pin){
   while(1){
-    if(ptrmem!=NULL){
-        *ptrmem=pushed();
+    if(pushed()!=0){
+      analogWrite(pin,pushed());
     }
     sleep(delay); 
   }        
@@ -155,7 +176,7 @@ void SwitchClueLED::run(){
         if(ptrmem!=NULL)
         state=*ptrmem;
         if (state==HIGH){
-             //on clignote 1 fois pour signaler que le switch 1 doit être sur on
+            //on clignote 1 fois pour signaler que le switch 1 doit être sur on
             //digitalWrite(18,HIGH);
             //sleep(1);
             digitalWrite(pin,LOW);
@@ -183,11 +204,30 @@ void SwitchClueLED::run(){
 }
 
 ////class Noise pour l'émission de son
-Buzzer::Buzzer(int d, int freq, int s, string n):Actuator(d,s,n),frequency(freq){}
+Buzzer::Buzzer(int d, int *frequencies, int s, string n):Actuator(d,s,n),Board(),m_frequencies(frequencies){}
+
+void Buzzer::Liremelody(int *freq, int pin){
+  for(int i=0 ; i<NBFREQ+1;i++){
+    analogWrite(pin,freq[i]);
+    sleep(1);
+  }
+melodyfini=true;
+}
+/*
 void Buzzer::makeNoise(int freq){
     frequency=freq;
     cout<<frequency<<'\n';
 }
+
+void Buzzer::run(){
+  while(1){
+    if(ptrmem!=NULL)
+      *ptrmem=;
+      cout<<freq;
+      sleep(delay);
+    }
+}
+*/
 
 // classe I2CActuatorScreen
 I2CActuatorScreen::I2CActuatorScreen ():Device(){}

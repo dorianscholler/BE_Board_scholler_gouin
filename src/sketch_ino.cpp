@@ -128,10 +128,14 @@ void Board::loop(){
                 digitalWrite(16,LOW);///on éteint la led rouge
                 digitalWrite(17,HIGH);///on allume la led rouge de la section fils pour indiquer la prochaine zone à manipuler
                 digitalWrite(20,HIGH);///on allume la led verte de résolution de l'étape
-                
+                //freq=analogRead(25);
+                //sprintf(buf,"temperature %d",val);
+                //Serial.println(buf);
+
+
+
                 step++;
                 started=0;
-                
             }            
         }
         else if (step==2){

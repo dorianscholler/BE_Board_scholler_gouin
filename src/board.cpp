@@ -1,6 +1,35 @@
 #include "core_simulation.h"
 #include "mydevices.h"
 
+int tab[NBFREQ]={320,200,560,149,600,589,305,789,654};
+
+Buzzer buzzer(DELAY,tab,LOW,"emmetteur de son");
+  
+int NoisyButton::pushed(){
+  if (ifstream(file)){
+    nbreactif++; 
+    //avoir si ca marche // 
+    if (nbreactif==1 and buzzer.melodyfini){
+      return frequency;
+    }
+    else if (nbreactif!=1 and buzzer.melodyfini==false){
+      cout<<"ATTENTION : Deux boutons activés en même temps et melodie non terminée. Veuillez à appuyer sur un seul bouton en même temps et à attendre la fin de la melodie"<<endl;
+      return 0;
+    }
+    else if (nbreactif!=1){
+      cout<<"ATTENTION : Deux boutons activés en même temps. Veuillez à appuyer sur un seul bouton en même temps"<<endl;
+      return 0;
+    }
+    else {
+      cout<<"ATTENTION : Melodie non terminée. Veuillez à attendre la fin de la melodie."<<endl;
+      return 0;
+    }
+  }
+  else{
+    nbreactif=0;
+    return 0;
+  }
+}
 
 int main(){
       
@@ -55,8 +84,19 @@ int main(){
   NoisyButton digi9(DELAY,900,"bouton digital 9","9.txt");
   
   ///CREATION DU BUZZER
-  Buzzer buzzer(DELAY,400,LOW,"emmetteur de son");
-  
+  //voir création dans mydevices pour cause probleme variable ami melodyfini
+
+  /*
+  int tab[9]={320,200,560,149,600,589,305,789,654};
+  Buzzer buzzer(DELAY,tab,LOW,"emmetteur de son");
+  */
+
+
+
+
+
+
+
   ///BRANCHEMENT SUR LES PINS
   //capteur de luminosité
   esp8266.pin(0,luminosity);

@@ -7,72 +7,9 @@
 #include <string.h>
 #include "core_simulation.h"
 #include <fstream>
+#include <vector>
 
-
-
-//////////////////////////////////////////SENSORS/////////////////////////////
-////defininition d'une classe pour les capteurs
-class Sensor:public Device{
-protected:
-    //definition du retard des capteurs
-    int delay;
-    //definition de l'erreur des capteurs
-    int alea;
-    //on va tout nommer pour plus de clarté
-    string name;
-public:
-    Sensor(int delay, string name);  
-};
-
-////création d'une classe qui va nous permettre de récupérer la valeur analogique reçue par une pin
-class ExternalAnalogicalSensorWire:public Sensor{
-private:
-    int value;
-    string file;
-public:
-    ExternalAnalogicalSensorWire(int d, int v, string n, string f);
-    bool connect();
-    virtual void run();    
-};
-
-////classe pour le capteur de luminosité
-class AnalogSensorLuminosity:public Sensor{
-private:
-    string file;
-public:
-    //constructeur
-   AnalogSensorLuminosity(int d, string n, string f); 
-   //déterminer si le capteur est recouvert
-   bool covered();
-   // thread representant le capteur et permettant de fonctionner independamment de la board
-   virtual void run();
-};
-
-///Classe pour les boutton simulé par des fichiers
-class ExternalDigitalSensorButton : public Sensor {
-protected :
-  bool state=false;
-  string file;///nous permet de placer les fichiers des bouttons poussoir là ou ça nous intéresse
-public:
-  ExternalDigitalSensorButton(int d, string n, string f);
-  ~ExternalDigitalSensorButton();
-  bool getandsetbutton();
-  virtual void run();
-};
-
-
-
-///Classe pour les boutton qui emettent une sonorité 
-class NoisyButton : public ExternalDigitalSensorButton{
-private:
-    ///int value; pas sûr qu'on en ai besoin
-    int frequency;
-public:
-    NoisyButton(int d, int freq, string n, string f);
-    int pushed(); 
-    virtual void run();
-    
-};
+#define NBFREQ 9
 
 
 
@@ -137,12 +74,17 @@ public:
 
 
 ////Classe permettant l'émission de son pour, la mélodie, la résolution d'une partie du puzzle et pour l'explosion
-class Buzzer :public Actuator{
+class Buzzer :public Actuator,public Board{
 private:
-    int frequency;
+    friend class NoisyButton;
+    int *m_frequencies;
+    bool melodyfini=false;
 public:
-    Buzzer(int d, int freq, int s, string n);
-    void makeNoise(int freq);
+    Buzzer(int d, int *frequencies, int s, string n);
+    void Liremelody(int *freq,int pin);
+    //virtual void run();
+    //void makeNoise(int freq);
+
 };
 
 
@@ -162,3 +104,68 @@ public:
 
 #endif
 
+//////////////////////////////////////////SENSORS/////////////////////////////
+////defininition d'une classe pour les capteurs
+class Sensor:public Device{
+protected:
+    //definition du retard des capteurs
+    int delay;
+    //definition de l'erreur des capteurs
+    int alea;
+    //on va tout nommer pour plus de clarté
+    string name;
+public:
+    Sensor(int delay, string name);  
+};
+
+////création d'une classe qui va nous permettre de récupérer la valeur analogique reçue par une pin
+class ExternalAnalogicalSensorWire:public Sensor{
+private:
+    int value;
+    string file;
+public:
+    ExternalAnalogicalSensorWire(int d, int v, string n, string f);
+    bool connect();
+    virtual void run();    
+};
+
+////classe pour le capteur de luminosité
+class AnalogSensorLuminosity:public Sensor{
+private:
+    string file;
+public:
+    //constructeur
+   AnalogSensorLuminosity(int d, string n, string f); 
+   //déterminer si le capteur est recouvert
+   bool covered();
+   // thread representant le capteur et permettant de fonctionner independamment de la board
+   virtual void run();
+};
+
+///Classe pour les boutton simulé par des fichiers
+class ExternalDigitalSensorButton : public Sensor {
+protected :
+  bool state=false;
+  string file;///nous permet de placer les fichiers des bouttons poussoir là ou ça nous intéresse
+public:
+  ExternalDigitalSensorButton(int d, string n, string f);
+  ~ExternalDigitalSensorButton();
+  bool getandsetbutton();
+  virtual void run();
+};
+
+
+
+///Classe pour les boutton qui emettent une sonorité 
+class NoisyButton : public ExternalDigitalSensorButton, public Board{
+private:
+    ///int value; pas sûr qu'on en ai besoin
+    int frequency;
+    int nbreactif=0;
+    //string *p={};
+public:
+    NoisyButton(int d, int freq, string n, string f);
+    int pushed(); 
+    virtual void run(int pin);
+    
+};

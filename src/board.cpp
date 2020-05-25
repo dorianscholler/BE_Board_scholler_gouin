@@ -11,9 +11,9 @@ int main(){
   ///AnalogSensorTemperature temperature(TEMP,DELAY,"capteur temperature");
   
   ///CREATION DES LEDS
-  DigitalActuatorLED led_switch(DELAY,"la led des switch ","rouge");
-  DigitalActuatorLED led_pad(DELAY,"la led du clavier ","rouge");
-  DigitalActuatorLED led_wire(DELAY,"la led des fils ","rouge");
+  DigitalActuatorLED led_switch(DELAY,"led switch ","rouge");
+  DigitalActuatorLED led_pad(DELAY,"led clavier ","rouge");
+  DigitalActuatorLED led_wire(DELAY,"led fils ","rouge");
   
   ///LED indice
   SwitchClueLED switch_clue(DELAY,18,"Led indice ","bleu");

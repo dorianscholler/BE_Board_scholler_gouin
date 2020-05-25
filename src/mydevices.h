@@ -30,7 +30,7 @@ public:
 ///definition de la clase ui va produire l'explosion
 class Explosion:public Actuator{
 public:
-    Explosion(int d,int s,string n);
+    Explosion(int d,string n);
 };
 
 

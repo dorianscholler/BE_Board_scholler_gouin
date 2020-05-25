@@ -1,7 +1,6 @@
 #include <unistd.h>
 #include "core_simulation.h"
 
-#include "mydevices.h"
 
 // la fonction d'initialisation d'arduino
 void Board::setup(){
@@ -56,6 +55,17 @@ void Board::setup(){
     pinMode(22,INPUT);
     pinMode(23,INPUT);
     pinMode(24,INPUT);
+    
+    ////petite initialisation des leds 
+    ///initialisation des LED à l'état bas
+    for (int i=0; i<7;i++){
+        analogWrite(15+i,0);
+    }
+
+    ///initialisation des pin de désamorçage
+    analogWrite(26,10);
+    analogWrite(27,140);
+    analogWrite(28,320);
 }
 
 
@@ -72,8 +82,10 @@ bool tab_equal(int tab1[],int tab2[],int taille){
 //////definitions des variables externes à notre fonction, nécessité de faire bien attention aux mdiffications
 int step=0;///permet d'empêcher les manipulation des autres blocs que celui sur lequel on est censé travailler
 int started=0;///permet de savoir quand le décompte de temps a commencé
+//int first=0;
 
 void Board::loop(){
+    
     //char buf[100];///definition du buffer d'écriture
     int val_lum;////valeur mesurée par le capteur de luminosité
     int verif_button;///stockage de l'état du bouton de vérification
@@ -81,13 +93,27 @@ void Board::loop(){
     int tab_s_needed[4]={1,0,1,1};///position des switch qui permet de débloquer l'étape
     
     //////on va initialiser les pin permettant l'emission d'une tension
-    analogWrite(26,10);
+    /*analogWrite(26,10);
     analogWrite(27,140);
-    analogWrite(28,320);
+    analogWrite(28,320);*/
     /////on donne aussi le tableau de solution pour les fils
     int tab_wire_needed[3]={10,140,320};
     int tab_wire[4];
-     
+    /*
+    if(first==0){
+        ///initialisation des LED à l'état bas
+        for (int i=0; i<7;i++){
+            analogWrite(15+i,0);
+        }
+  
+        ///initialisation des pin de désamorçage
+        analogWrite(26,10);
+        analogWrite(27,140);
+        analogWrite(28,320);
+        
+        first++;
+    }
+    */
     val_lum=analogRead(0);
     cout<<endl;
     if(val_lum==0){////and time !=0;
@@ -164,8 +190,9 @@ void Board::loop(){
     else{////et temps !=0
         cout<<"capteur de lum pas couvert\n";
     }
+    
     /*ELSE EXPLOSION*/
-    cout<<endl;
+                
     sleep(1);
            
 }

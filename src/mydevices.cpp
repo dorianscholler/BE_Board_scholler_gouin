@@ -144,7 +144,7 @@ void Actuator::setState(int s){state=s;}
 
 
 ////classe explosion
-Explosion::Explosion(int d, int s, string n):Actuator(d,s,n){}
+Explosion::Explosion(int d, string n):Actuator(d,LOW,n){}
 
 
 
@@ -162,7 +162,7 @@ DigitalActuatorLED::DigitalActuatorLED(int d, string n, string col):Actuator(d,L
 void DigitalActuatorLED::run(){
   while(1){
     if(ptrmem!=NULL)
-      state=*ptrmem;
+        state=*ptrmem;
     if (state==LOW){cout << name<< " eteint\n";}
     else{cout << name<< " allume : " << color<<'\n';}
     sleep(delay);

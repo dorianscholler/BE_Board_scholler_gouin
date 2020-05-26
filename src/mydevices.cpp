@@ -91,11 +91,7 @@ void ExternalDigitalSensorButton::run(){
 
  
 //Classe pour les bouttons qui emettent une sonorité
-
-
-
 NoisyButton::NoisyButton(int d, int freq,int p, string n, string f):ExternalDigitalSensorButton(d,n,f),frequency(freq),pin(p){}
-///////////// test probleme varibale melodi fini voir board.cpp
 
 void NoisyButton::run(){
   while(1){
@@ -112,8 +108,6 @@ void NoisyButton::run(){
     sleep(delay); 
   }      
 }
-
-
 
 
 ////////////////////////////////////ACTUATORS//////////////////////////////////////////
@@ -133,12 +127,21 @@ void Explosion::run(){
                 analogWrite(HP,1000);
                 sleep(1);
                 analogWrite(HP,0);
+                /*
+                ////on allume toutes les led rouges
+                digitalWrite(pSwitch,HIGH);
+                digitalWrite(pPad,HIGH);
+                digitalWrite(pWire,HIGH);
+
+                ///et on éteint toutes les autres
+                digitalWrite(pSdone,LOW);
+                digitalWrite(pPdone,LOW);
+                digitalWrite(pWdone,LOW);*/
             }
         }
+        sleep(delay);
     }
 }
-
-
 
 /////classe Timer
 Timer::Timer(int d, int s, int c, int u, string n):Actuator(d,s,n),counter(c),update(u){}
@@ -154,8 +157,6 @@ void DigitalActuatorLED::run(){
   while(1){
     if(ptrmem!=NULL)
         state=*ptrmem;
-    //if (state==LOW){cout << name<< " eteint\n";}
-    //else{cout << name<< " allume : " << color<<'\n';}
     if (state==HIGH){cout << name<< " allume : " << color<<'\n';}
     sleep(delay);
     }
@@ -170,25 +171,25 @@ void SwitchClueLED::run(){
         if (state==HIGH){
             //on clignote 1 fois pour signaler que le switch 1 doit être sur on
             digitalWrite(18,HIGH);///thibs avait commenté
-            sleep(1);//idem
+            sleep(0.5);//idem
             digitalWrite(pin,LOW);
             sleep(delay);
     
             //on clignote 3 fois pour signaler que le switch 3 doit être sur on
             for (int i=0;i<2;i++){
                 digitalWrite(pin,HIGH);
-                sleep(1);
+                sleep(0.5);
                 digitalWrite(pin,LOW);
-                sleep(1);
+                sleep(0.5);
             } 
             sleep(delay);
     
             //on clignote 4 fois pour signaler que le switch 4 doit être sur on
             for (int i=0;i<3;i++){
                 digitalWrite(pin,HIGH);
-                sleep(1);
+                sleep(0.5);
                 digitalWrite(pin,LOW);
-                sleep(1);
+                sleep(0.5);
             }
             sleep(delay+1); 
         }

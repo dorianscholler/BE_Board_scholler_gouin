@@ -15,6 +15,7 @@
 #define MAX_IO_PIN 40 ////valeur initiale 6
 #define HP 25 ///on définie la pin du haut parleur pour pouvoir emettre les sons des noisy button
 #define FREQ 9///on définit le nombre de fréquence de notre mélodie
+#define DELAY_C 1
 
 
 ////pin pour les leds qui sont manipullée par plusieurs fonction
@@ -139,6 +140,7 @@ public:
   ///fonction qui nous permet d'émettre notre mélodie 
   void PlayMelody(int freq[FREQ],int pin);
 };
+
 
 
 #endif

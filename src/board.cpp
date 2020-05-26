@@ -15,7 +15,7 @@ int main(){
   DigitalActuatorLED led_wire(DELAY,"led fils ","rouge");
   
   ///LED indice
-  SwitchClueLED switch_clue(DELAY,18,"Led indice ","bleu");
+  SwitchClueLED switch_clue(DELAY_C,18,"Led indice ","bleu");
   
   ///LEDs signalant la conclusion d'une enigme
   DigitalActuatorLED switch_done(DELAY,"switch résolu ","vert");
@@ -48,15 +48,15 @@ int main(){
   ExternalDigitalSensorButton switch4(DELAY,"bouton 4","switch4.txt");
   
   ///CREATION DU CLAVIER AVEC SON
-  NoisyButton digi1(DELAY,100,HP,"bouton digital 1","1.txt");
-  NoisyButton digi2(DELAY,200,HP,"bouton digital 2","2.txt");
-  NoisyButton digi3(DELAY,300,HP,"bouton digital 3","3.txt");
-  NoisyButton digi4(DELAY,400,HP,"bouton digital 4","4.txt");
-  NoisyButton digi5(DELAY,500,HP,"bouton digital 5","5.txt");
-  NoisyButton digi6(DELAY,600,HP,"bouton digital 6","6.txt");
-  NoisyButton digi7(DELAY,700,HP,"bouton digital 7","7.txt");
-  NoisyButton digi8(DELAY,800,HP,"bouton digital 8","8.txt");
-  NoisyButton digi9(DELAY,900,HP,"bouton digital 9","9.txt");
+  NoisyButton digi1(DELAY,50,HP,"bouton digital 1","1.txt");
+  NoisyButton digi2(DELAY,100,HP,"bouton digital 2","2.txt");
+  NoisyButton digi3(DELAY,150,HP,"bouton digital 3","3.txt");
+  NoisyButton digi4(DELAY,200,HP,"bouton digital 4","4.txt");
+  NoisyButton digi5(DELAY,250,HP,"bouton digital 5","5.txt");
+  NoisyButton digi6(DELAY,300,HP,"bouton digital 6","6.txt");
+  NoisyButton digi7(DELAY,350,HP,"bouton digital 7","7.txt");
+  NoisyButton digi8(DELAY,400,HP,"bouton digital 8","8.txt");
+  NoisyButton digi9(DELAY,450,HP,"bouton digital 9","9.txt");
  
   ///CREATION DU BUZZER
   //voir création dans mydevices pour cause probleme variable ami melodyfini
@@ -64,7 +64,7 @@ int main(){
   //Buzzer buzzer(DELAY,tab,LOW,"emmetteur de son");
   
   ///CREATION DE L'EXLOSION
-  Explosion explode(DELAY,"exploision");
+  Explosion explode(DELAY,"explosion");
   
 
   ///BRANCHEMENT SUR LES PINS

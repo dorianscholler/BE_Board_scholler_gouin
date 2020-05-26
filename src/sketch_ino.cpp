@@ -98,8 +98,8 @@ int tab_s_needed[4]={1,0,1,1};///position des switch qui permet de débloquer l'
 int tab_wire_needed[3]={10,140,320};
 int tab_wire[4]; 
 ///création du tableau de note pour la mélodie
-int melody[4]={300,200,500,900}; 
-int b_melody[9]={0,1,1,0,1,0,0,0,1};
+int melody[4]={150,200,350,450}; 
+int b_melody[9]={0,0,1,1,0,0,1,0,1};
 int tab_melo[9];
 //////definitions des variables externes à notre fonction, nécessité de faire bien attention aux mdiffications
 int step=0;///permet d'empêcher les manipulation des autres blocs que celui sur lequel on est censé travailler
@@ -149,7 +149,7 @@ void Board::loop(){
                     }
                     else {
                         analogWrite(29,HIGH); ///on active l'explosion
-                                        
+                        
                         ////on allume toutes les led rouges
                         digitalWrite(pSwitch,HIGH);
                         digitalWrite(pPad,HIGH);
@@ -185,7 +185,7 @@ void Board::loop(){
                     }
                     else {
                         analogWrite(29,HIGH); ///on active l'explosion
-                                        
+                         
                         ////on allume toutes les led rouges
                         digitalWrite(pSwitch,HIGH);
                         digitalWrite(pPad,HIGH);
@@ -214,8 +214,9 @@ void Board::loop(){
                     digitalWrite(pWdone,HIGH);
                     
                     sprintf(buf,"seriez vous un enseignant incroyable?");
-                    //Serial.println(buf);
                     bus.write(1,buf,100);
+                    
+                    sleep(DELAY);
                     
                     digitalWrite(pSdone,LOW);
                     digitalWrite(pPdone,LOW);
@@ -230,8 +231,7 @@ void Board::loop(){
                 }
                 else{
                     erreur++;
-                    sprintf(buf,"erreur %d/5",erreur);
-                    //Serial.println(buf);    
+                    sprintf(buf,"erreur %d/5",erreur);  
                     bus.write(1,buf,100);
                     if (erreur==5){
                         digitalWrite(29,HIGH); ///on active l'explosion
@@ -256,7 +256,6 @@ void Board::loop(){
     else{
         ///si il y eu les 5 erreur on quitte tout il faut recommencer
         sprintf(buf,"Vous avez échoué");
-        //Serial.println(buf);
         bus.write(1,buf,100);
          
         ///on éteint toutes les LED restantes

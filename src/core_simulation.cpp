@@ -174,13 +174,13 @@ void Board::i2c(int addr,Device& dev){
   tabthreadbus[addr]=new thread(&Device::run,&dev);
 }
 
+////cette fonction est crée pour que l'on puisse jouer l'indice de la partie 2
 void Board::PlayMelody(int freq[FREQ],int pin){
     for(int i=0 ; i<FREQ;i++){
-        analogWrite(pin,freq[i]);
-        //cout<<'\n'<<freq[i]<<'\n';
+        analogWrite(pin,freq[i]);///on emét tour à tour les fréquences composant mélodie sur le haut parleur
         sleep(1);
     }
-    analogWrite(pin,0); ////rajouter pour indiquer que la PIN du haut parleur est libre
+    analogWrite(pin,0);///on arrête l'émission de son sur le haut parleur
 }
 
 

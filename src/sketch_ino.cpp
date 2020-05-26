@@ -60,6 +60,11 @@ void Board::setup(){
     
     ///pin pour le bouton start
     pinMode(32,INPUT);
+    
+    ///pin pour vérifier que le boite est fermée et pour le verrou
+    pinMode(BOX,OUTPUT);
+    pinMode(P_CLOSED,INPUT);
+    
    
     ////explosion définie comme input 
     analogWrite(29,INPUT);
@@ -140,7 +145,7 @@ void Board::loop(){
                     PlayMelody(melody,HP);///lecture de la mélodie à reproduire pendant cette lecture le programme est en attente
                 }
                 else{
-                    erreur++;
+                    erreur++;//on incrément le nombre d'erreur qui est limité à 5
                     sprintf(buf,"erreur %d/5",erreur);
                     //Serial.println(buf);
                     bus.write(1,buf,100);
@@ -167,7 +172,7 @@ void Board::loop(){
             verif_button=analogRead(30);
             if (verif_button==1){
                 for (int i=0;i<9;i++){
-                    tab_melo[i]=analogRead(6+i);
+                    tab_melo[i]=analogRead(6+i);///on stocke les bouton activé et on les places dans un tableau
                 }
                 if (tab_equal(tab_melo,b_melody,9)){
                     digitalWrite(pPad,LOW);///on éteint la led rouge
@@ -216,14 +221,22 @@ void Board::loop(){
                     sprintf(buf,"seriez vous un enseignant incroyable?");
                     bus.write(1,buf,100);
                     
+                    digitalWrite(BOX,HIGH);
+                    sprintf(buf,"la boite peut maintenant être ouverte");
+                    bus.write(1,buf,100);
+                    
                     sleep(DELAY);
                     
                     digitalWrite(pSdone,LOW);
                     digitalWrite(pPdone,LOW);
                     digitalWrite(pWdone,LOW);
                     
+                    sprintf(buf,"Pour recommencer, fermer la boite et appuyer sur start");
+                    bus.write(1,buf,100);
+                    
                     start_button=digitalRead(32);
-                    if (start_button!=0){
+                    if (start_button!=0 && digitalRead(P_CLOSED)==HIGH){
+                        digitalWrite(BOX,LOW);
                         step=0;
                         started=0;
                         erreur=0;     

@@ -33,6 +33,7 @@ On retrouve parmis les fichiers .txt:
 -3 fichiers verifi.txt avec i allant de 1 à 4.
 -1 fichier start.txt.
 -1 fichier couvert.txt
+-1 fichier closed.txt
 
 Ces fichiers texts permettent de simuler des interraction avec le casse-tête, il est donc nécessaire de placer ou d'enlever ces fichiers du dossier dans le quel se trouve le dossier source et le fichier ./compile_linux.sh.
 
@@ -40,11 +41,10 @@ FONCTIONNEMENT :
 
 Pour commencer, il faut couvrir le capteur de luminosité avec couvert.txt. Si le capteur n'est pas couvert, rien ne peut être manipulé.
 
-Pour l'étape 1, il faut placer les fichiers switch 1, 3 et 4.txt puis verif1.txt.
+Pour l'étape 1, il faut placer les fichiers switch1, 3 et 4.txt puis verif1.txt. Dans le cas où cinq erreurs sont commises, pour pouvoir recommencer il est nécessaire d'appuyer sur le bouton start et donc de placer le fichier start.txt dans le dossier.
 
-Pour l'étape 2,
+Pour l'étape 2, il faut placer les fichiers 3,4,7 et 9.txt et appuyer sur le bouton de vérification. Dans le cas où cinq erreurs sont commises, pour pouvoir recommencer il est nécessaire d'appuyer sur le bouton start et donc de placer le fichier start.txt dans le dossier.
 
-Pour l'étape 3, on place les fochiers connect 10, 140 et 320.txt suivit du fichier verif3.txt.
+Pour l'étape 3, on place les fochiers connect 10, 140 et 320.txt suivit du fichier verif3.txt. Dans le cas où cinq erreurs sont commises, pour pouvoir recommencer il est nécessaire d'appuyer sur le bouton start et donc de placer le fichier start.txt dans le dossier. Si l'énigme est résolu, il ets possible d'ouvrir la boite mais avant de recommencer il faut s'assurer que le capteur de fermeture de la boite soit actif et donc que le fichier closed.txt soit dans le dossier.
 
-En cas d'échec retirez les fichiers et remplacez les par start.txt pour pouvoir recommencer. Une fois la partie relancée enlevé le start.txt.
 

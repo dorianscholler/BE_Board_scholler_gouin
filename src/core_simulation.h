@@ -15,7 +15,11 @@
 #define MAX_IO_PIN 40 ////valeur initiale 6
 #define HP 25 ///on définie la pin du haut parleur pour pouvoir emettre les sons des noisy button
 #define FREQ 9///on définit le nombre de fréquence de notre mélodie
-#define DELAY_C 1
+#define DELAY_C 1 //délais pour la led indice fonctionnement en parallèle
+#define FAST 0.5///délais plus rapide pour ce qu'on doit constamment vérifier
+#define P_CLOSED 34///la pin du bouton qui vérifie la fermeture
+#define BOX 33///la pin du verrou
+
 
 
 ////pin pour les leds qui sont manipullée par plusieurs fonction

@@ -31,7 +31,7 @@ int main(){
   I2CActuatorScreen screen;
   
   ///CREATION DU CAPTEUR DE LUMINOSITE
-  AnalogSensorLuminosity luminosity(0.5,"capteur de luminosite","couvert.txt");
+  AnalogSensorLuminosity luminosity(FAST,"capteur de luminosite","couvert.txt");
   
   ///CREATION DU BOUTON DE VERIFICATION
   ExternalDigitalSensorButton verif_b1(DELAY,"bouton de verification","verif1.txt");
@@ -58,14 +58,14 @@ int main(){
   NoisyButton digi8(DELAY,400,HP,"bouton digital 8","8.txt");
   NoisyButton digi9(DELAY,450,HP,"bouton digital 9","9.txt");
  
-  ///CREATION DU BUZZER
-  //voir création dans mydevices pour cause probleme variable ami melodyfini
-  //int tab[9]={320,200,560,149,600,589,305,789,654};
-  //Buzzer buzzer(DELAY,tab,LOW,"emmetteur de son");
   
   ///CREATION DE L'EXLOSION
   Explosion explode(DELAY,"explosion");
   
+  ///CREATION DU SERVO MOTEUR QUI SERT DE VERROU POUR LA BOITE
+  DigitalActuatorMotor lock(FAST,"verrou");
+  //bouton pour vérifier que la boite est fermée
+  ExternalDigitalSensorButton closed(FAST,"la boite est fermée","closed.txt");
 
   ///BRANCHEMENT SUR LES PINS
   //capteur de luminosité
@@ -117,9 +117,9 @@ int main(){
   ///connection du capteur d'exposion
   esp8266.pin(29,explode);
   
-  //BUZZER
-  //esp8266.pin(25,buzzer);
-  
+  ///connection du verrou et du bouton pour vérifier si la boite est fermée
+  esp8266.pin(BOX,lock);
+  esp8266.pin(P_CLOSED,closed);
   
   esp8266.i2c(1,screen);
    

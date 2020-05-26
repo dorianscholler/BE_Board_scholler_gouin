@@ -11,7 +11,6 @@ Sensor::Sensor(int d, string n):Device(),delay(d),name(n){
 alea=1;
 }
 
-
 //classe ExternalAnalogicalSensorWire
 ExternalAnalogicalSensorWire::ExternalAnalogicalSensorWire(int d, int v, string n, string f):Sensor(d,n),value(v),file(f){}
 
@@ -109,12 +108,9 @@ void NoisyButton::run(){
   }      
 }
 
-
 ////////////////////////////////////ACTUATORS//////////////////////////////////////////
 ////classe Actuator
 Actuator::Actuator(int d, int s, string n):Device(),delay(d),state(s),name(n){}
-int Actuator::getState(){return state;}
-void Actuator::setState(int s){state=s;}
 
 
 ////classe explosion
@@ -124,31 +120,33 @@ void Explosion::run(){
         if(ptrmem!=NULL){
             state=*ptrmem;
             if (state==HIGH){
-                analogWrite(HP,1000);
+                analogWrite(HP,1000);///en cas d'explosion on envoie juste un signal sonore
                 sleep(1);
                 analogWrite(HP,0);
-                /*
-                ////on allume toutes les led rouges
-                digitalWrite(pSwitch,HIGH);
-                digitalWrite(pPad,HIGH);
-                digitalWrite(pWire,HIGH);
-
-                ///et on éteint toutes les autres
-                digitalWrite(pSdone,LOW);
-                digitalWrite(pPdone,LOW);
-                digitalWrite(pWdone,LOW);*/
             }
         }
         sleep(delay);
     }
+}///on voulait également gérer un allumage des LED pour je ne sais quelle obscure raison il n'était pas pris en compte ici
+
+///classe du moteur
+DigitalActuatorMotor::DigitalActuatorMotor(int d, string n):Actuator(d,LOW,n){}
+void DigitalActuatorMotor::run(){
+    while(1){
+        if(ptrmem!=NULL){
+            state=*ptrmem;
+            if (state==HIGH){
+                ////on a ouvert le verrou
+                cout<<name<<"est débolqué\n";
+                sleep(5);
+            }
+            else{
+                ///le verrou est fermé
+            }
+        }    
+         sleep(delay);
+    }   
 }
-
-/////classe Timer
-Timer::Timer(int d, int s, int c, int u, string n):Actuator(d,s,n),counter(c),update(u){}
-
-void ErrorReduction(){}
-
-void Timer::run(){}
 
 //classe DigitalActuatorLED
 DigitalActuatorLED::DigitalActuatorLED(int d, string n, string col):Actuator(d,LOW,n),color(col){}
@@ -160,7 +158,7 @@ void DigitalActuatorLED::run(){
     if (state==HIGH){cout << name<< " allume : " << color<<'\n';}
     sleep(delay);
     }
-}
+}///on affiche l'état des LEDs que lorsqu'elles sont allumées
 
 
 SwitchClueLED::SwitchClueLED(int d,int p, string n, string col):DigitalActuatorLED(d,n,col), pin(p){}
@@ -170,8 +168,8 @@ void SwitchClueLED::run(){
         state=*ptrmem;
         if (state==HIGH){
             //on clignote 1 fois pour signaler que le switch 1 doit être sur on
-            digitalWrite(18,HIGH);///thibs avait commenté
-            sleep(0.5);//idem
+            digitalWrite(18,HIGH);
+            sleep(0.5);
             digitalWrite(pin,LOW);
             sleep(delay);
     
@@ -208,6 +206,7 @@ void I2CActuatorScreen::run(){
     sleep(1);
     }
 }
+
 
 
 

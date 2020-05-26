@@ -16,9 +16,9 @@ class Sensor:public Device{
 protected:
     //definition du retard des capteurs
     int delay;
-    //definition de l'erreur des capteurs
+    //definition de l'erreur des capteurs analogiques
     int alea;
-    //on va tout nommer pour plus de clarté
+    //on va donner un nom à tout juste pour pas se perdre
     string name;
 public:
     Sensor(int delay, string name);  
@@ -28,7 +28,7 @@ public:
 class ExternalAnalogicalSensorWire:public Sensor{
 private:
     int value;
-    string file;
+    string file;///on pourra donner e argument le fichier associé
 public:
     ExternalAnalogicalSensorWire(int d, int v, string n, string f);
     bool connect();
@@ -61,12 +61,11 @@ public:
 };
 
 
-
 ///Classe pour les boutton qui emettent une sonorité 
 class NoisyButton : public ExternalDigitalSensorButton, public Board{
 private:
-    int frequency;
-    int pin;
+    int frequency;///la fréquence associée au boutton
+    int pin;///la pin du haut parleur
 public:
     NoisyButton(int d, int freq,int p, string n, string f);
     virtual void run();
@@ -82,8 +81,6 @@ protected:
     string name;
 public:
     Actuator(int d,int s,string n);
-    int getState();
-    void setState(int s);
 };
 
 
@@ -94,23 +91,12 @@ public:
     virtual void run();
 };
 
-
-
-////definition de la classe pour le Timer
-class Timer:public Actuator{
-private:
-    int counter;
-    int update;///valeur à soustraire au timer en cas d'erreur
+////création d'un servomoteur pour gérer le vérouillage de la boite
+class DigitalActuatorMotor:public Actuator{
 public:
-    Timer(int d, int s, int c,int u,string n);
-    /*void ErrorReduction();
-    void Start();
-    void Stop();*/
+    DigitalActuatorMotor(int d, string n);
     virtual void run();
-    
-    
 };
-
 
 // exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
 class DigitalActuatorLED: public Actuator {
@@ -145,5 +131,4 @@ public:
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
 };
-
 #endif

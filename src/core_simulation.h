@@ -7,16 +7,19 @@
 #include <mutex>
 
 #define DELAY 3
+#define DELAY_C 1 //délais pour la led indice fonctionnement en parallèle
+#define FAST 0.5///délais plus rapide pour ce qu'on doit constamment vérifier
 #define TEMP 22
 #define HIGH 1
 #define LOW 0
 #define MAX_I2C_DEVICES 4 ////valeur initiale 4
+
 #define I2C_BUFFER_SIZE 1024 ////valeur initiale 1024
 #define MAX_IO_PIN 40 ////valeur initiale 6
 #define HP 25 ///on définie la pin du haut parleur pour pouvoir emettre les sons des noisy button
-#define FREQ 9///on définit le nombre de fréquence de notre mélodie
-#define DELAY_C 1 //délais pour la led indice fonctionnement en parallèle
-#define FAST 0.5///délais plus rapide pour ce qu'on doit constamment vérifier
+
+#define FREQ 4///on définit le nombre de fréquence de notre mélodie
+
 #define P_CLOSED 34///la pin du bouton qui vérifie la fermeture
 #define BOX 33///la pin du verrou
 
@@ -143,8 +146,16 @@ public:
   
   ///fonction qui nous permet d'émettre notre mélodie 
   void PlayMelody(int freq[FREQ],int pin);
+
   //envoyer le son aux hp
   void envoyer_son_HP(int value_pin);
+
+  
+  /////explosion
+  void Explosion();
+  
+  ///indice pour la partie des switch
+  void SwitchClueLED();
 };
 
 

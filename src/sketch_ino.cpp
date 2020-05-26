@@ -33,17 +33,17 @@ void Board::setup(){
     pinMode(14,INPUT);
     
     ///LEDS
-    pinMode(15,OUTPUT);
-    pinMode(16,OUTPUT);
-    pinMode(17,OUTPUT);
+    pinMode(pSwitch,OUTPUT);
+    pinMode(pPad,OUTPUT);
+    pinMode(pWire,OUTPUT);
     
     ///LED INDICE
-    pinMode(18,OUTPUT);
+    pinMode(pClue,OUTPUT);
     
     ///LEDS PARTIES RESOLUES
-    pinMode(19,OUTPUT);
-    pinMode(20,OUTPUT);
-    pinMode(21,OUTPUT);
+    pinMode(pSdone,OUTPUT);
+    pinMode(pPdone,OUTPUT);
+    pinMode(pWdone,OUTPUT);
     
     ///BUZZER
     pinMode(HP,OUTPUT);
@@ -65,18 +65,11 @@ void Board::setup(){
     pinMode(BOX,OUTPUT);
     pinMode(P_CLOSED,INPUT);
     
-   
-    ////explosion définie comme input 
-    analogWrite(29,INPUT);
-    
     ////petite initialisation des leds 
     ///initialisation des LED à l'état bas
     for (int i=0; i<7;i++){
         analogWrite(15+i,0);
     }   
-    
-    ///initialisation de l'explosion 
-    analogWrite(29,0);
 
     ///initialisation des pin de désamorçage
     analogWrite(26,10);
@@ -111,7 +104,7 @@ int tab_s_needed[4]={1,0,1,1};///position des switch qui permet de débloquer l'
 int tab_wire_needed[3]={10,140,320};
 int tab_wire[4]; 
 ///création du tableau de note pour la mélodie
-int melody[4]={150,200,350,450}; 
+int melody[4]={200,150,450,350}; 
 vector<int> tab_pin_ref_melo {9,8,14,12};
 vector<int> tab_pin_used_melo;
 //////definitions des variables externes à notre fonction, nécessité de faire bien attention aux mdiffications
@@ -135,18 +128,20 @@ void Board::loop(){
             
             if (started==0){
                 digitalWrite(pSwitch,HIGH);///on alume la diode de la section des interrupteurs
-                digitalWrite(pClue,HIGH);///on lance l'indice en parallèle pour ne pas bloquer l'exéution du code
+                SwitchClueLED();///on lance l'indice en parallèle pour ne pas bloquer l'exéution du code
+                started++;
             }  
  
             /////on met a jour le tableau des valeurs des switchs
             for (int i=0;i<4;i++){
                 tab_switch[i]=analogRead(2+i);
             }
-            cout<<"ONESTLA COUCOU HELP ALED \n";
+
+
             verif_button=digitalRead(1);
-             cout<<"ONESTLA COUCOU HELP ALED 2\n";
+
             if (verif_button==1){///on rearde si une demande de vérification est faite
-              cout<<"ONESTLA COUCOU HELP ALED 3\n";
+
                 if(tab_equal(tab_switch,tab_s_needed,4)){///si les switchs sont dans le bon ordre
                     digitalWrite(pSwitch,LOW);///on éteint la led rouge
                     digitalWrite(pSdone,HIGH);///on allume la led verte de résolution de l'étape
@@ -161,25 +156,17 @@ void Board::loop(){
                     //Serial.println(buf);
                     bus.write(1,buf,100);
                     if (erreur!=5){
-                        digitalWrite(pClue,HIGH);///on redonne l'indice visuel en lancant le clignottement des LEDs
+                        SwitchClueLED();///on redonne l'indice visuel en lancant le clignottement des LEDs
                     }
                     else {
-                        analogWrite(29,HIGH); ///on active l'explosion
-                        
-                        ////on allume toutes les led rouges
-                        digitalWrite(pSwitch,HIGH);
-                        digitalWrite(pPad,HIGH);
-                        digitalWrite(pWire,HIGH);
-                        
-                        ///et on éteint toutes les autres
-                        digitalWrite(pSdone,LOW);
-                        digitalWrite(pPdone,LOW);
-                        digitalWrite(pWdone,LOW);
+                        Explosion();
                     }
                 }
             } 
         }
         else if (step==1){
+            sprintf(buf,"laissez vous guider par la musique et enrtez le code à 4 chiffres");
+            bus.write(1,buf,100);
             while (step!=2){
                 for (int i=0;i<9;i++){
                     if (not(find(6+i,tab_pin_used_melo)) and digitalRead(6+i)==1){
@@ -189,9 +176,8 @@ void Board::loop(){
                     }  
                 }
                 verif_button=digitalRead(30);
-                if (verif_button==1 and tab_pin_used_melo.size()==4){
-                    
-                    if (tab_pin_used_melo==tab_pin_ref_melo){
+                if (verif_button==1){   
+                    if (tab_pin_used_melo==tab_pin_ref_melo and tab_pin_used_melo.size()==4){
                         digitalWrite(pPad,LOW);///on éteint la led rouge
                         digitalWrite(pWire,HIGH);///on allume la led rouge de la section fils pour indiquer la prochaine zone à manipuler
                         digitalWrite(pPdone,HIGH);///on allume la led verte de résolution de l'étape
@@ -207,33 +193,18 @@ void Board::loop(){
                             PlayMelody(melody,HP);///lecture de la mélodie à reproduire pendant cette lecture le programme est en attente
                         }
                         else {
-                            analogWrite(29,HIGH); ///on active l'explosion
-                            
-                            ////on allume toutes les led rouges
-                            digitalWrite(pSwitch,HIGH);
-                            digitalWrite(pPad,HIGH);
-                            digitalWrite(pWire,HIGH);
-                            
-                            ///et on éteint toutes les autres
-                            digitalWrite(pSdone,LOW);
-                            digitalWrite(pPdone,LOW);
-                            digitalWrite(pWdone,LOW);
-                        }
-                        
-                        
-                    }
-                        
-
+                            Explosion();
+                            step++;
+                         }    
+                    }       
                 }
-            
-                       
             }
-        }
+        } 
         else if (step==2){
             for (int i=0;i<3;i++){
                 tab_wire[i]=analogRead(22+i);///on relève les valeurs stockée sur les pin de réception de la partie wire
             }
-            verif_button=analogRead(31);
+            verif_button=digitalRead(31);
             if (verif_button==1){
                 
                 if (tab_equal(tab_wire,tab_wire_needed,3)){
@@ -270,17 +241,7 @@ void Board::loop(){
                     sprintf(buf,"erreur %d/5",erreur);  
                     bus.write(1,buf,100);
                     if (erreur==5){
-                        digitalWrite(29,HIGH); ///on active l'explosion
-                        
-                        ////on allume toutes les led rouges
-                        digitalWrite(pSwitch,HIGH);
-                        digitalWrite(pPad,HIGH);
-                        digitalWrite(pWire,HIGH);
-                        
-                        ///et on éteint toutes les autres
-                        digitalWrite(pSdone,LOW);
-                        digitalWrite(pPdone,LOW);
-                        digitalWrite(pWdone,LOW);
+                         Explosion(); ///on active l'explosion
                     }         
                 }  
             }    
@@ -293,7 +254,7 @@ void Board::loop(){
         ///si il y eu les 5 erreur on quitte tout il faut recommencer
         sprintf(buf,"Vous avez échoué");
         bus.write(1,buf,100);
-         
+        sleep(5);
         ///on éteint toutes les LED restantes
         digitalWrite(pSwitch,LOW);
         digitalWrite(pPad,LOW);

@@ -179,6 +179,7 @@ void Board::PlayMelody(int freq[FREQ],int pin){
     for(int i=0 ; i<FREQ;i++){
         analogWrite(pin,freq[i]);///on emét tour à tour les fréquences composant mélodie sur le haut parleur
         sleep(1);
+        cout<<'\n'<<freq[i]<<'\n';
     }
     analogWrite(pin,0);///on arrête l'émission de son sur le haut parleur
 }
@@ -233,6 +234,50 @@ void Board::envoyer_son_HP(int value_pin){
         default:
             cout<<"erreur pin";
             break;
+    }
+}
+
+void Board::Explosion(){
+    analogWrite(HP,1000);///en cas d'explosion on envoie juste un signal sonore
+    sleep(1);
+    analogWrite(HP,0);
+
+    ////on allume toutes les led rouges
+    digitalWrite(pSwitch,1);
+    digitalWrite(pPad,1);
+    digitalWrite(pWire,1);
+
+    ///et on éteint toutes les autres
+    digitalWrite(pSdone,0);
+    digitalWrite(pPdone,0);
+    digitalWrite(pWdone,0);
+}
+
+void Board::SwitchClueLED(){
+    //on clignote 1 fois pour signaler que le switch 1 doit être sur on
+    digitalWrite(pClue,HIGH);
+    sleep(0.5);
+    digitalWrite(pClue,LOW);
+    cout<<"\nclignote 1\n";
+    sleep(1);
+
+    //on clignote 3 fois pour signaler que le switch 3 doit être sur on
+    for (int i=0;i<3;i++){
+        digitalWrite(pClue,HIGH);
+        sleep(0.5);
+        digitalWrite(pClue,LOW);
+        sleep(0.5);
+        cout<<"\nclignote 3\n";
+    } 
+    sleep(1);
+
+    //on clignote 4 fois pour signaler que le switch 4 doit être sur on
+    for (int i=0;i<4;i++){
+        digitalWrite(pClue,HIGH);
+        sleep(0.5);
+        digitalWrite(pClue,LOW);
+        sleep(0.5);
+        cout<<"\nclignote 4\n";
     }
 }
     

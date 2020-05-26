@@ -13,10 +13,7 @@ int main(){
   DigitalActuatorLED led_switch(DELAY,"led switch ","rouge");
   DigitalActuatorLED led_pad(DELAY,"led clavier ","rouge");
   DigitalActuatorLED led_wire(DELAY,"led fils ","rouge");
-  
-  ///LED indice
-  SwitchClueLED switch_clue(DELAY_C,18,"Led indice ","bleu");
-  
+ 
   ///LEDs signalant la conclusion d'une enigme
   DigitalActuatorLED switch_done(DELAY,"switch résolu ","vert");
   DigitalActuatorLED pad_done(DELAY,"clavier résolu ","vert");
@@ -59,9 +56,6 @@ int main(){
   ExternalDigitalSensorButton digi9(DELAY,"bouton digital 9","9.txt");
  
   
-  ///CREATION DE L'EXLOSION
-  Explosion explode(DELAY,"explosion");
-  
   ///CREATION DU SERVO MOTEUR QUI SERT DE VERROU POUR LA BOITE
   DigitalActuatorMotor lock(FAST,"verrou");
   //bouton pour vérifier que la boite est fermée
@@ -101,8 +95,6 @@ int main(){
   esp8266.pin(pPad,led_pad);
   esp8266.pin(pWire,led_wire);
   
-  //LED INDICE
-  esp8266.pin(pClue,switch_clue);
   
   ///LEDs signalant la conclusion d'une enigme
   esp8266.pin(pSdone,switch_done);
@@ -113,9 +105,6 @@ int main(){
   esp8266.pin(22,wire1);
   esp8266.pin(23,wire2);
   esp8266.pin(24,wire3);
-  
-  ///connection du capteur d'exposion
-  esp8266.pin(29,explode);
   
   ///connection du verrou et du bouton pour vérifier si la boite est fermée
   esp8266.pin(BOX,lock);
@@ -129,6 +118,3 @@ int main(){
   return 0;
   
 }
-
-
-

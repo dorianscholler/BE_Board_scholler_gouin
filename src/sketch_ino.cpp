@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include "core_simulation.h"
-
+#include "vector"
 
 // la fonction d'initialisation d'arduino
 void Board::setup(){
@@ -94,7 +94,15 @@ bool tab_equal(int tab1[],int tab2[],int taille){
     }
     return equal;
 }
-
+bool find(int val,vector<int> v1){
+    bool found;
+    for(int i=0; i<v1.size(); i++){
+        if (v1[i]==val){
+            found=true;
+        }
+    }
+    return found;
+}
 
 int tab_switch[4];///table dans laquelle on va stocker la valeur des switch
 int tab_s_needed[4]={1,0,1,1};///position des switch qui permet de débloquer l'étape
@@ -104,8 +112,8 @@ int tab_wire_needed[3]={10,140,320};
 int tab_wire[4]; 
 ///création du tableau de note pour la mélodie
 int melody[4]={150,200,350,450}; 
-int b_melody[9]={0,0,1,1,0,0,1,0,1};
-int tab_melo[9];
+vector<int> tab_pin_ref_melo {9,8,14,12};
+vector<int> tab_pin_used_melo;
 //////definitions des variables externes à notre fonction, nécessité de faire bien attention aux mdiffications
 int step=0;///permet d'empêcher les manipulation des autres blocs que celui sur lequel on est censé travailler
 int started=0;///permet de savoir quand le décompte de temps a commencé
@@ -129,13 +137,16 @@ void Board::loop(){
                 digitalWrite(pSwitch,HIGH);///on alume la diode de la section des interrupteurs
                 digitalWrite(pClue,HIGH);///on lance l'indice en parallèle pour ne pas bloquer l'exéution du code
             }  
-            
+ 
             /////on met a jour le tableau des valeurs des switchs
             for (int i=0;i<4;i++){
                 tab_switch[i]=analogRead(2+i);
             }
-            verif_button=analogRead(1);
+            cout<<"ONESTLA COUCOU HELP ALED \n";
+            verif_button=digitalRead(1);
+             cout<<"ONESTLA COUCOU HELP ALED 2\n";
             if (verif_button==1){///on rearde si une demande de vérification est faite
+              cout<<"ONESTLA COUCOU HELP ALED 3\n";
                 if(tab_equal(tab_switch,tab_s_needed,4)){///si les switchs sont dans le bon ordre
                     digitalWrite(pSwitch,LOW);///on éteint la led rouge
                     digitalWrite(pSdone,HIGH);///on allume la led verte de résolution de l'étape
@@ -169,42 +180,54 @@ void Board::loop(){
             } 
         }
         else if (step==1){
-            verif_button=analogRead(30);
-            if (verif_button==1){
+            while (step!=2){
                 for (int i=0;i<9;i++){
-                    tab_melo[i]=analogRead(6+i);///on stocke les bouton activé et on les places dans un tableau
+                    if (not(find(6+i,tab_pin_used_melo)) and digitalRead(6+i)==1){
+                        tab_pin_used_melo.push_back(6+i);///on stocke les bouton activé et on les places dans un tableau
+                        int value_pin=6+i;
+                        envoyer_son_HP(value_pin);
+                    }  
                 }
-                if (tab_equal(tab_melo,b_melody,9)){
-                    digitalWrite(pPad,LOW);///on éteint la led rouge
-                    digitalWrite(pWire,HIGH);///on allume la led rouge de la section fils pour indiquer la prochaine zone à manipuler
-                    digitalWrite(pPdone,HIGH);///on allume la led verte de résolution de l'étape
-                    step++;    
-                }
-                else{
-                    erreur++;
-                    sprintf(buf,"erreur %d/5",erreur);
-                    //Serial.println(buf);
-                    bus.write(1,buf,100);
-                    if (erreur!=5){
-                        PlayMelody(melody,HP);///lecture de la mélodie à reproduire pendant cette lecture le programme est en attente
+                verif_button=digitalRead(30);
+                if (verif_button==1 and tab_pin_used_melo.size()==4){
+                    
+                    if (tab_pin_used_melo==tab_pin_ref_melo){
+                        digitalWrite(pPad,LOW);///on éteint la led rouge
+                        digitalWrite(pWire,HIGH);///on allume la led rouge de la section fils pour indiquer la prochaine zone à manipuler
+                        digitalWrite(pPdone,HIGH);///on allume la led verte de résolution de l'étape
+                        step++;    
                     }
-                    else {
-                        analogWrite(29,HIGH); ///on active l'explosion
-                         
-                        ////on allume toutes les led rouges
-                        digitalWrite(pSwitch,HIGH);
-                        digitalWrite(pPad,HIGH);
-                        digitalWrite(pWire,HIGH);
+                    else{
+                        erreur++;
+                        tab_pin_used_melo.clear();
+                        sprintf(buf,"erreur %d/5",erreur);
+                        //Serial.println(buf);
+                        bus.write(1,buf,100);
+                        if (erreur!=5){
+                            PlayMelody(melody,HP);///lecture de la mélodie à reproduire pendant cette lecture le programme est en attente
+                        }
+                        else {
+                            analogWrite(29,HIGH); ///on active l'explosion
+                            
+                            ////on allume toutes les led rouges
+                            digitalWrite(pSwitch,HIGH);
+                            digitalWrite(pPad,HIGH);
+                            digitalWrite(pWire,HIGH);
+                            
+                            ///et on éteint toutes les autres
+                            digitalWrite(pSdone,LOW);
+                            digitalWrite(pPdone,LOW);
+                            digitalWrite(pWdone,LOW);
+                        }
                         
-                        ///et on éteint toutes les autres
-                        digitalWrite(pSdone,LOW);
-                        digitalWrite(pPdone,LOW);
-                        digitalWrite(pWdone,LOW);
+                        
                     }
-                    
-                    
+                        
+
                 }
-            }            
+            
+                       
+            }
         }
         else if (step==2){
             for (int i=0;i<3;i++){

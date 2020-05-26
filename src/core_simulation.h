@@ -143,6 +143,8 @@ public:
   
   ///fonction qui nous permet d'émettre notre mélodie 
   void PlayMelody(int freq[FREQ],int pin);
+  //envoyer le son aux hp
+  void envoyer_son_HP(int value_pin);
 };
 
 

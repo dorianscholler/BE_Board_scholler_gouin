@@ -60,7 +60,7 @@ public:
   virtual void run();
 };
 
-
+/*
 ///Classe pour les boutton qui emettent une sonorité 
 class NoisyButton : public ExternalDigitalSensorButton, public Board{
 private:
@@ -70,7 +70,7 @@ public:
     NoisyButton(int d, int freq,int p, string n, string f);
     virtual void run();
     
-};
+};*/
 
 ///////////////////////////////////////////ACTUATORS/////////////////////////////////////////
 ////definition d'une classe pour les actionneurs

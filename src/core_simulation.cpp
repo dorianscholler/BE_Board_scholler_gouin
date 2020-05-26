@@ -183,5 +183,56 @@ void Board::PlayMelody(int freq[FREQ],int pin){
     analogWrite(pin,0);///on arrête l'émission de son sur le haut parleur
 }
 
-
+void Board::envoyer_son_HP(int value_pin){
+    switch (value_pin){
+        case 6:
+            analogWrite(HP,50);
+            sleep(0.5);
+            analogWrite(HP,0);
+            break;
+        case 7:
+            analogWrite(HP,100);
+            sleep(0.5);
+            analogWrite(HP,0);
+            break;
+        case 8:
+            analogWrite(HP,150);
+            sleep(0.5);
+            analogWrite(HP,0);
+            break;
+        case 9:
+            analogWrite(HP,200);
+            sleep(0.5);
+            analogWrite(HP,0);
+            break;
+        case 10:
+            analogWrite(HP,250);
+            sleep(0.5);
+            analogWrite(HP,0);
+            break;
+        case 11:
+            analogWrite(HP,300);
+            sleep(0.5);
+            analogWrite(HP,0);
+            break; 
+        case 12:
+            analogWrite(HP,350);
+            sleep(0.5);
+            analogWrite(HP,0);
+            break;
+        case 13:
+            analogWrite(HP,400);
+            sleep(0.5);
+            analogWrite(HP,0);
+            break;
+        case 14:
+            analogWrite(HP,450);
+            sleep(0.5);
+            analogWrite(HP,0);
+            break; 
+        default:
+            cout<<"erreur pin";
+            break;
+    }
+}
     

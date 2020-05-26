@@ -90,6 +90,7 @@ void ExternalDigitalSensorButton::run(){
 
  
 //Classe pour les bouttons qui emettent une sonorité
+/*
 NoisyButton::NoisyButton(int d, int freq,int p, string n, string f):ExternalDigitalSensorButton(d,n,f),frequency(freq),pin(p){}
 
 void NoisyButton::run(){
@@ -106,7 +107,7 @@ void NoisyButton::run(){
     }
     sleep(delay); 
   }      
-}
+}*/
 
 ////////////////////////////////////ACTUATORS//////////////////////////////////////////
 ////classe Actuator

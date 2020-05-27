@@ -3,7 +3,7 @@
 COMPILATION:
 -Commencez par cloner le git avec l'URL : https://github.com/dorianscholler/BE_Board_scholler_gouin.git
 -Placez vous dans le répertoire ainsi crée.
--Retirer tous les .txt et les placez sur le bureau ou dans un dossier de façon à ce qu'ils soient facilement accessibles. Attention, mettre le fichier closed.txt directement dans le dossier du git.
+-Retirer tous les .txt et les placer sur le bureau ou dans un dossier de façon à ce qu'ils soient facilement accessibles. Attention, mettre le fichier closed.txt directement dans le dossier du git.
 -En étant dans le dossier du git utiliser la commande ./compile_linux.sh
 
 
@@ -13,7 +13,7 @@ Une fois le programme compilé, utiliser la commande ./arduino dans le répertoi
 COMPOSITION:
 Nottre boîte se compose de trois parties :
 
--Un bloc composé de 4 interrupteurs, de trois LED, une rouge, une verte et une bleue et d'un bouton de vérification. Lorsque cette partie est disponible, la LED rouge s'allume. A partir de e moment il faut mettre les switchs dans la bonne position et appuyer sur le bouton de vérification. Si les interrupteurs sont bien placés, la LED verte s'allume, une mélodie retentie  et la LED rouge de la prochaine partie à manipuler s'allume. Si la combinaison est la mauvaise lecompteur d'erreur augmente de 1 et il faut réessayer. A 5 erreur le casse tête émet n son toute les LEDs rouges clignottent et il faut appuyer sur le bouton start pour recommencer. 
+-Un bloc composé de 4 interrupteurs, de trois LED, une rouge, une verte et une bleue et d'un bouton de vérification. Lorsque cette partie est disponible, la LED rouge s'allume. A partir de ce moment il faut mettre les switchs dans la bonne position et appuyer sur le bouton de vérification. Si les interrupteurs sont bien placés, la LED verte s'allume, une mélodie retentie  et la LED rouge de la prochaine partie à manipuler s'allume. Si la combinaison est la mauvaise, le compteur d'erreur augmente de 1 et il faut réessayer. A 5 erreur le casse tête émet un son, toute les LEDs rouges clignottent et il faut appuyer sur le bouton start pour recommencer. 
 
 Indice : au déput de la partie des switch la LED bleu clignote 1 fois pour indiquer l'activation du premier interrupteur, 3 fois pour le troisième et 4 fois pour le quatrième. Cette indice est redonné en cas d'erreur. 
 
@@ -45,7 +45,7 @@ Pour l'étape 1, il faut placer les fichiers switch1, 3 et 4.txt puis verif1.txt
 
 Pour l'étape 2, il faut placer les fichiers 4,3,9 et 7.txt dans cet ordre et y allant doucement et appuyer sur le bouton de vérification. Dans le cas où cinq erreurs sont commises, pour pouvoir recommencer il est nécessaire d'appuyer sur le bouton start et donc de placer le fichier start.txt dans le dossier.
 
-Pour l'étape 3, on place les fichiers connect 10, 140 et 320.txt suivit du fichier verif3.txt. Dans le cas où cinq erreurs sont commises, pour pouvoir recommencer il est nécessaire d'appuyer sur le bouton start et donc de placer le fichier start.txt dans le dossier. Si l'énigme est résolu, il ets possible d'ouvrir la boite mais avant de recommencer il faut s'assurer que le capteur de fermeture de la boite soit actif et donc que le fichier closed.txt soit dans le dossier et rappuyer sur le bouton start en plaçant start.txt dans le dossier.
+Pour l'étape 3, on place les fichiers connect 10, 140 et 320.txt suivit du fichier verif3.txt. Dans le cas où cinq erreurs sont commises, pour pouvoir recommencer il est nécessaire d'appuyer sur le bouton start et donc de placer le fichier start.txt dans le dossier. Si l'énigme est résolu, il ets possible d'ouvrir la boite mais avant de recommencer il faut s'assurer que le capteur de fermeture de la boite soit actif et donc que le fichier closed.txt soit dans le dossier. On peut ensuite rappuyer sur le bouton start en plaçant start.txt dans le dossier.
 
 Lorsque l'on perds, les lEDs rouge sont toutes allumées et on émet un son sur le buzzer. 
 

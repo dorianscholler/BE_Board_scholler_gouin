@@ -89,7 +89,7 @@ bool tab_equal(int tab1[],int tab2[],int taille){
 }
 bool find(int val,vector<int> v1){
     bool found;
-    for(int i=0; i<v1.size(); i++){
+    for(int i=0; i<(int)v1.size(); i++){
         if (v1[i]==val){
             found=true;
         }
